@@ -1,6 +1,8 @@
 
 # Created by https://www.gitignore.io/api/unity
 
+.DS_Store
+
 ### Unity ###
 /*/*/[Ll]ogs/
 /*/*/[Ll]ibrary/
@@ -10,6 +12,8 @@
 /*/*/[Bb]uilds/
 /*/*/Assets/AssetStoreTools*
 
+/*/*/UserSettings/
+
 ### Unity Done ###
 /*/*/*/[Ll]ogs/
 /*/*/*/[Ll]ibrary/
@@ -18,6 +22,8 @@
 /*/*/*/[Bb]uild/
 /*/*/*/[Bb]uilds/
 /*/*/*/Assets/AssetStoreTools*
+
+/*/*/*/UserSettings/
 
 # Visual Studio 2015 cache directory
 /**/.vs/
