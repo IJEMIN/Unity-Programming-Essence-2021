@@ -91,7 +91,7 @@ public class HelloCode : MonoBehaviour {
 
         for (int i = 0; i < students.Length; i++)
         {
-            Debug.Log((i + 1) + " 번째 학생의 점수: " + students[i]);
+            Debug.Log(i + " 번 학생의 점수: " + students[i]);
         }
     }
 
