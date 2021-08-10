@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI; // AI, 내비게이션 시스템 관련 코드를 가져오기
 
 // 적 AI를 구현한다
-public class Enemy : LivingEntity {
+public class Zombie : LivingEntity {
     public LayerMask whatIsTarget; // 추적 대상 레이어
 
     private LivingEntity targetEntity; // 추적할 대상
@@ -13,9 +13,9 @@ public class Enemy : LivingEntity {
     public AudioClip deathSound; // 사망시 재생할 소리
     public AudioClip hitSound; // 피격시 재생할 소리
 
-    private Animator enemyAnimator; // 애니메이터 컴포넌트
-    private AudioSource enemyAudioPlayer; // 오디오 소스 컴포넌트
-    private Renderer enemyRenderer; // 렌더러 컴포넌트
+    private Animator zombieAnimator; // 애니메이터 컴포넌트
+    private AudioSource zombieAudioPlayer; // 오디오 소스 컴포넌트
+    private Renderer zombieRenderer; // 렌더러 컴포넌트
 
     public float damage = 20f; // 공격력
     public float timeBetAttack = 0.5f; // 공격 간격
@@ -40,12 +40,12 @@ public class Enemy : LivingEntity {
     private void Awake() {
         // 게임 오브젝트로부터 사용할 컴포넌트들을 가져오기
         pathFinder = GetComponent<NavMeshAgent>();
-        enemyAnimator = GetComponent<Animator>();
-        enemyAudioPlayer = GetComponent<AudioSource>();
+        zombieAnimator = GetComponent<Animator>();
+        zombieAudioPlayer = GetComponent<AudioSource>();
 
         // 렌더러 컴포넌트는 자식 게임 오브젝트에게 있으므로
         // GetComponentInChildren() 메서드를 사용
-        enemyRenderer = GetComponentInChildren<Renderer>();
+        zombieRenderer = GetComponentInChildren<Renderer>();
     }
 
     // 적 AI의 초기 스펙을 결정하는 셋업 메서드
@@ -59,7 +59,7 @@ public class Enemy : LivingEntity {
         // 내비메쉬 에이전트의 이동 속도 설정
         pathFinder.speed = newSpeed;
         // 렌더러가 사용중인 머테리얼의 컬러를 변경, 외형 색이 변함
-        enemyRenderer.material.color = skinColor;
+        zombieRenderer.material.color = skinColor;
     }
 
     private void Start() {
@@ -69,7 +69,7 @@ public class Enemy : LivingEntity {
 
     private void Update() {
         // 추적 대상의 존재 여부에 따라 다른 애니메이션을 재생
-        enemyAnimator.SetBool("HasTarget", hasTarget);
+        zombieAnimator.SetBool("HasTarget", hasTarget);
     }
 
     // 주기적으로 추적할 대상의 위치를 찾아 경로를 갱신
@@ -130,7 +130,7 @@ public class Enemy : LivingEntity {
             hitEffect.Play();
 
             // 피격 효과음 재생
-            enemyAudioPlayer.PlayOneShot(hitSound);
+            zombieAudioPlayer.PlayOneShot(hitSound);
         }
 
         // LivingEntity의 OnDamage()를 실행하여 데미지 적용
@@ -154,9 +154,9 @@ public class Enemy : LivingEntity {
         pathFinder.enabled = false;
 
         // 사망 애니메이션 재생
-        enemyAnimator.SetTrigger("Die");
+        zombieAnimator.SetTrigger("Die");
         // 사망 효과음 재생
-        enemyAudioPlayer.PlayOneShot(deathSound);
+        zombieAudioPlayer.PlayOneShot(deathSound);
     }
 
     private void OnTriggerStay(Collider other) {
