@@ -1,30 +1,41 @@
-﻿using UnityEngine;
-using System.Collections;
-using Photon.Pun;
+﻿// <copyright file="ScoreHelper.cs" company="Exit Games GmbH">
+//   Part of: Pun Cockpit
+// </copyright>
+// <author>developer@exitgames.com</author>
+// --------------------------------------------------------------------------------------------------------------------
+
+using UnityEngine;
 using Photon.Pun.UtilityScripts;
 
-public class ScoreHelper : MonoBehaviour {
+
+namespace Photon.Pun.Demo.Cockpit
+{
+
+    public class ScoreHelper : MonoBehaviour
+    {
+        public int Score;
+
+        int _currentScore;
 
 
-	public int Score;
+        // Use this for initialization
+        void Start()
+        {
 
-	int _currentScore;
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
 
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+            if (PhotonNetwork.LocalPlayer != null && Score != _currentScore)
+            {
+                _currentScore = Score;
+                PhotonNetwork.LocalPlayer.SetScore(Score);
+            }
 
-		if (PhotonNetwork.LocalPlayer !=null && Score != _currentScore)
-		{
-			_currentScore = Score;
-			PhotonNetwork.LocalPlayer.SetScore(Score);
-		}
+        }
+    }
 
-	}
 }

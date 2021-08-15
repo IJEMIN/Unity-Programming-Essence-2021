@@ -32,5 +32,7 @@ namespace Photon.Chat
         public const byte AddFriends = 6;
         /// <summary>(7) Remove friends from list of friends that should update you of their status.</summary>
         public const byte RemoveFriends = 7;
+        /// <summary>(8) Operation to set properties of public chat channel or users in public chat channels.</summary>
+        public const byte SetProperties = 8;
     }
 }

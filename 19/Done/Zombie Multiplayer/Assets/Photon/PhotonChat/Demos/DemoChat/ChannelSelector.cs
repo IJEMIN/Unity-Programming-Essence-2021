@@ -1,22 +1,32 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="Exit Games GmbH"/>
+// <summary>Demo code for Photon Chat in Unity.</summary>
+// <author>developer@exitgames.com</author>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ChannelSelector : MonoBehaviour, IPointerClickHandler
+
+namespace Photon.Chat.Demo
 {
-    public string Channel;
-
-    public void SetChannel(string channel)
+    public class ChannelSelector : MonoBehaviour, IPointerClickHandler
     {
-        this.Channel = channel;
-        Text t = GetComponentInChildren<Text>();
-        t.text = this.Channel;        
-    }
+        public string Channel;
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        ChatGui handler = FindObjectOfType<ChatGui>();
-        handler.ShowChannel(this.Channel);
+        public void SetChannel(string channel)
+        {
+            this.Channel = channel;
+            Text t = this.GetComponentInChildren<Text>();
+            t.text = this.Channel;
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            ChatGui handler = FindObjectOfType<ChatGui>();
+            handler.ShowChannel(this.Channel);
+        }
     }
 }

@@ -27,10 +27,7 @@ namespace Photon.Chat
     public class ChatPeer : PhotonPeer
     {
         /// <summary>Name Server Host Name for Photon Cloud. Without port and without any prefix.</summary>
-        public const string NameServerHost = "ns.exitgames.com";
-
-        /// <summary>Name Server for HTTP connections to the Photon Cloud. Includes prefix and port.</summary>
-        public const string NameServerHttp = "http://ns.exitgamescloud.com:80/photon/n";
+        public string NameServerHost = "ns.exitgames.com";
 
         /// <summary>Name Server port per protocol (the UDP port is different than TCP, etc).</summary>
         private static readonly Dictionary<ConnectionProtocol, int> ProtocolToNameServerPort = new Dictionary<ConnectionProtocol, int>() { { ConnectionProtocol.Udp, 5058 }, { ConnectionProtocol.Tcp, 4533 }, { ConnectionProtocol.WebSocket, 9093 }, { ConnectionProtocol.WebSocketSecure, 19093 } }; //, { ConnectionProtocol.RHttp, 6063 } };
@@ -51,23 +48,23 @@ namespace Photon.Chat
 
 
         // Sets up the socket implementations to use, depending on platform
-        [Conditional("SUPPORTED_UNITY")]
+        [System.Diagnostics.Conditional("SUPPORTED_UNITY")]
         private void ConfigUnitySockets()
         {
             Type websocketType = null;
-            #if UNITY_XBOXONE && !UNITY_EDITOR
-            websocketType = Type.GetType("ExitGames.Client.Photon.SocketWebTcpNativeDynamic, PhotonWebSocket", false);
+            #if (UNITY_XBOXONE || UNITY_GAMECORE) && !UNITY_EDITOR
+            websocketType = Type.GetType("ExitGames.Client.Photon.SocketNativeSource, PhotonRealtime", false);
             if (websocketType == null)
             {
-                websocketType = Type.GetType("ExitGames.Client.Photon.SocketWebTcpNativeDynamic, Assembly-CSharp-firstpass", false);
+                websocketType = Type.GetType("ExitGames.Client.Photon.SocketNativeSource, Assembly-CSharp-firstpass", false);
             }
             if (websocketType == null)
             {
-                websocketType = Type.GetType("ExitGames.Client.Photon.SocketWebTcpNativeDynamic, Assembly-CSharp", false);
+                websocketType = Type.GetType("ExitGames.Client.Photon.SocketNativeSource, Assembly-CSharp", false);
             }
             if (websocketType == null)
             {
-                UnityEngine.Debug.LogError("UNITY_XBOXONE is defined but peer could not find SocketWebTcpNativeDynamic. Check your project files to make sure the native WSS implementation is available. Won't connect.");
+                UnityEngine.Debug.LogError("XBOX is defined but peer could not find SocketNativeSource. Check your project files to make sure the native WSS implementation is available. Won't connect.");
             }
             #else
             // to support WebGL export in Unity, we find and assign the SocketWebTcp class (if it's in the project).
@@ -89,12 +86,15 @@ namespace Photon.Chat
                 this.SocketImplementationConfig[ConnectionProtocol.WebSocketSecure] = websocketType;
             }
 
-            #if NET_4_6 && (UNITY_EDITOR || !ENABLE_IL2CPP)
+            #if NET_4_6 && (UNITY_EDITOR || !ENABLE_IL2CPP) && !NETFX_CORE
             this.SocketImplementationConfig[ConnectionProtocol.Udp] = typeof(SocketUdpAsync);
             this.SocketImplementationConfig[ConnectionProtocol.Tcp] = typeof(SocketTcpAsync);
             #endif
         }
 
+        /// <summary>If not zero, this is used for the name server port on connect. Independent of protocol (so this better matches). Set by ChatClient.ConnectUsingSettings.</summary>
+        /// <remarks>This is reset when the protocol fallback is used.</remarks>
+        public ushort NameServerPortOverride;
 
         /// <summary>
         /// Gets the NameServer Address (with prefix and port), based on the set protocol (this.UsedProtocol).
@@ -105,15 +105,17 @@ namespace Photon.Chat
             var protocolPort = 0;
             ProtocolToNameServerPort.TryGetValue(this.TransportProtocol, out protocolPort);
 
+            if (this.NameServerPortOverride != 0)
+            {
+                this.Listener.DebugReturn(DebugLevel.INFO, string.Format("Using NameServerPortInAppSettings as port for Name Server: {0}", this.NameServerPortOverride));
+                protocolPort = this.NameServerPortOverride;
+            }
+
             switch (this.TransportProtocol)
             {
                 case ConnectionProtocol.Udp:
                 case ConnectionProtocol.Tcp:
                     return string.Format("{0}:{1}", NameServerHost, protocolPort);
-                #if RHTTP
-                case ConnectionProtocol.RHttp:
-                    return NameServerHttp;
-                #endif
                 case ConnectionProtocol.WebSocket:
                     return string.Format("ws://{0}:{1}", NameServerHost, protocolPort);
                 case ConnectionProtocol.WebSocketSecure:
@@ -157,10 +159,10 @@ namespace Photon.Chat
                     opParameters[ParameterCode.UserId] = authValues.UserId;
                 }
 
-                if (authValues != null && authValues.AuthType != CustomAuthenticationType.None)
+                if (authValues.AuthType != CustomAuthenticationType.None)
                 {
                     opParameters[ParameterCode.ClientAuthenticationType] = (byte) authValues.AuthType;
-                    if (!string.IsNullOrEmpty(authValues.Token))
+                    if (authValues.Token != null)
                     {
                         opParameters[ParameterCode.Secret] = authValues.Token;
                     }
@@ -187,7 +189,7 @@ namespace Photon.Chat
     /// </summary>
     public enum CustomAuthenticationType : byte
     {
-        /// <summary>Use a custom authentification service. Currently the only implemented option.</summary>
+        /// <summary>Use a custom authentication service. Currently the only implemented option.</summary>
         Custom = 0,
 
         /// <summary>Authenticates users by their Steam Account. Set auth values accordingly!</summary>
@@ -199,16 +201,28 @@ namespace Photon.Chat
         /// <summary>Authenticates users by their Oculus Account and token.</summary>
         Oculus = 3,
 
-        /// <summary>Authenticates users by their PSN Account and token.</summary>
+        /// <summary>Authenticates users by their PSN Account and token on PS4.</summary>
+        PlayStation4 = 4,
+        [Obsolete("Use PlayStation4 or PlayStation5 as needed")]
         PlayStation = 4,
 
         /// <summary>Authenticates users by their Xbox Account and XSTS token.</summary>
         Xbox = 5,
 
-        /// <summary>Disables custom authentification. Same as not providing any AuthenticationValues for connect (more precisely for: OpAuthenticate).</summary>
+        /// <summary>Authenticates users by their HTC Viveport Account and user token. Set AuthGetParameters to "userToken=[userToken]"</summary>
+        Viveport = 10,
+
+        /// <summary>Authenticates users by their NSA ID.</summary>
+        NintendoSwitch = 11,
+        
+        /// <summary>Authenticates users by their PSN Account and token on PS5.</summary>
+        PlayStation5 = 12,
+        [Obsolete("Use PlayStation4 or PlayStation5 as needed")]
+        Playstation5 = 12,
+        
+        /// <summary>Disables custom authentication. Same as not providing any AuthenticationValues for connect (more precisely for: OpAuthenticate).</summary>
         None = byte.MaxValue
     }
-
 
 
     /// <summary>
@@ -218,11 +232,14 @@ namespace Photon.Chat
     /// On Photon, user authentication is optional but can be useful in many cases.
     /// If you want to FindFriends, a unique ID per user is very practical.
     ///
-    /// There are basically three options for user authentification: None at all, the client sets some UserId
+    /// There are basically three options for user authentication: None at all, the client sets some UserId
     /// or you can use some account web-service to authenticate a user (and set the UserId server-side).
     ///
     /// Custom Authentication lets you verify end-users by some kind of login or token. It sends those
     /// values to Photon which will verify them before granting access or disconnecting the client.
+    ///
+    /// The AuthValues are sent in OpAuthenticate when you connect, so they must be set before you connect.
+    /// If the AuthValues.UserId is null or empty when it's sent to the server, then the Photon Server assigns a UserId!
     ///
     /// The Photon Cloud Dashboard will let you enable this feature and set important server values for it.
     /// https://dashboard.photonengine.com
@@ -232,7 +249,8 @@ namespace Photon.Chat
         /// <summary>See AuthType.</summary>
         private CustomAuthenticationType authType = CustomAuthenticationType.None;
 
-        /// <summary>The type of custom authentication provider that should be used. Currently only "Custom" or "None" (turns this off).</summary>
+        /// <summary>The type of authentication provider that should be used. Defaults to None (no auth whatsoever).</summary>
+        /// <remarks>Several auth providers are available and CustomAuthenticationType.Custom can be used if you build your own service.</remarks>
         public CustomAuthenticationType AuthType
         {
             get { return authType; }
@@ -240,16 +258,22 @@ namespace Photon.Chat
         }
 
         /// <summary>This string must contain any (http get) parameters expected by the used authentication service. By default, username and token.</summary>
-        /// <remarks>Standard http get parameters are used here and passed on to the service that's defined in the server (Photon Cloud Dashboard).</remarks>
+        /// <remarks>
+        /// Maps to operation parameter 216.
+        /// Standard http get parameters are used here and passed on to the service that's defined in the server (Photon Cloud Dashboard).
+        /// </remarks>
         public string AuthGetParameters { get; set; }
 
         /// <summary>Data to be passed-on to the auth service via POST. Default: null (not sent). Either string or byte[] (see setters).</summary>
+        /// <remarks>Maps to operation parameter 214.</remarks>
         public object AuthPostData { get; private set; }
 
-        /// <summary>After initial authentication, Photon provides a token for this client / user, which is subsequently used as (cached) validation.</summary>
-        public string Token { get; set; }
+        /// <summary>Internal <b>Photon token</b>. After initial authentication, Photon provides a token for this client, subsequently used as (cached) validation.</summary>
+        /// <remarks>Any token for custom authentication should be set via SetAuthPostData or AddAuthParameter.</remarks>
+        public object Token { get; protected internal set; }
 
         /// <summary>The UserId should be a unique identifier per user. This is for finding friends, etc..</summary>
+        /// <remarks>See remarks of AuthValues for info about how this is set and used.</remarks>
         public string UserId { get; set; }
 
 
@@ -266,6 +290,7 @@ namespace Photon.Chat
         }
 
         /// <summary>Sets the data to be passed-on to the auth service via POST.</summary>
+        /// <remarks>AuthPostData is just one value. Each SetAuthPostData replaces any previous value. It can be either a string, a byte[] or a dictionary.</remarks>
         /// <param name="stringData">String data to be used in the body of the POST request. Null or empty string will set AuthPostData to null.</param>
         public virtual void SetAuthPostData(string stringData)
         {
@@ -273,13 +298,22 @@ namespace Photon.Chat
         }
 
         /// <summary>Sets the data to be passed-on to the auth service via POST.</summary>
+        /// <remarks>AuthPostData is just one value. Each SetAuthPostData replaces any previous value. It can be either a string, a byte[] or a dictionary.</remarks>
         /// <param name="byteData">Binary token / auth-data to pass on.</param>
         public virtual void SetAuthPostData(byte[] byteData)
         {
             this.AuthPostData = byteData;
         }
 
-        /// <summary>Adds a key-value pair to the get-parameters used for Custom Auth.</summary>
+        /// <summary>Sets data to be passed-on to the auth service as Json (Content-Type: "application/json") via Post.</summary>
+        /// <remarks>AuthPostData is just one value. Each SetAuthPostData replaces any previous value. It can be either a string, a byte[] or a dictionary.</remarks>
+        /// <param name="dictData">A authentication-data dictionary will be converted to Json and passed to the Auth webservice via HTTP Post.</param>
+        public virtual void SetAuthPostData(Dictionary<string, object> dictData)
+        {
+            this.AuthPostData = dictData;
+        }
+
+        /// <summary>Adds a key-value pair to the get-parameters used for Custom Auth (AuthGetParameters).</summary>
         /// <remarks>This method does uri-encoding for you.</remarks>
         /// <param name="key">Key for the value to set.</param>
         /// <param name="value">Some value relevant for Custom Authentication.</param>
@@ -288,15 +322,31 @@ namespace Photon.Chat
             string ampersand = string.IsNullOrEmpty(this.AuthGetParameters) ? "" : "&";
             this.AuthGetParameters = string.Format("{0}{1}{2}={3}", this.AuthGetParameters, ampersand, System.Uri.EscapeDataString(key), System.Uri.EscapeDataString(value));
         }
+
         /// <summary>
         /// Transform this object into string.
         /// </summary>
         /// <returns>string representation of this object.</returns>
         public override string ToString()
         {
-            return string.Format("AuthenticationValues UserId: {0}, GetParameters: {1} Token available: {2}", UserId, this.AuthGetParameters, Token != null);
+            return string.Format("AuthenticationValues Type: {3} UserId: {0}, GetParameters: {1} Token available: {2}", this.UserId, this.AuthGetParameters, this.Token != null, this.AuthType);
+        }
+
+        /// <summary>
+        /// Make a copy of the current object.
+        /// </summary>
+        /// <param name="copy">The object to be copied into.</param>
+        /// <returns>The copied object.</returns>
+        public AuthenticationValues CopyTo(AuthenticationValues copy)
+        {
+            copy.AuthType = this.AuthType;
+            copy.AuthGetParameters = this.AuthGetParameters;
+            copy.AuthPostData = this.AuthPostData;
+            copy.UserId = this.UserId;
+            return copy;
         }
     }
+
 
     /// <summary>Class for constants. Codes for parameters of Operations and Events.</summary>
     public class ParameterCode
@@ -367,13 +417,13 @@ namespace Photon.Chat
         /// <summary>(32761) Not in use currently.</summary>
         public const int UserBlocked = 0x7FFF - 6;
 
-        /// <summary>(32760) Random matchmaking only succeeds if a room exists thats neither closed nor full. Repeat in a few seconds or create a new room.</summary>
+        /// <summary>(32760) Random matchmaking only succeeds if a room exists that is neither closed nor full. Repeat in a few seconds or create a new room.</summary>
         public const int NoRandomMatchFound = 0x7FFF - 7;
 
         /// <summary>(32758) Join can fail if the room (name) is not existing (anymore). This can happen when players leave while you join.</summary>
         public const int GameDoesNotExist = 0x7FFF - 9;
 
-        /// <summary>(32757) Authorization on the Photon Cloud failed becaus the concurrent users (CCU) limit of the app's subscription is reached.</summary>
+        /// <summary>(32757) Authorization on the Photon Cloud failed because the concurrent users (CCU) limit of the app's subscription is reached.</summary>
         /// <remarks>
         /// Unless you have a plan with "CCU Burst", clients might fail the authentication step during connect.
         /// Affected client are unable to call operations. Please note that players who end a game and return
@@ -401,6 +451,9 @@ namespace Photon.Chat
         /// (32755) Custom Authentication of the user failed due to setup reasons (see Cloud Dashboard) or the provided user data (like username or token). Check error message for details.
         /// </summary>
         public const int CustomAuthenticationFailed = 0x7FFF - 12;
+
+        /// <summary>(32753) The Authentication ticket expired. Usually, this is refreshed behind the scenes. Connect (and authorize) again.</summary>
+        public const int AuthenticationTicketExpired = 0x7FF1;
     }
 
 }

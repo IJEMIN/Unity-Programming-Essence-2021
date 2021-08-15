@@ -38,9 +38,9 @@ namespace Photon.Pun.Demo.Cockpit
 
         void Update()
         {
-            if (PhotonNetwork.BackgroundTimeout != _cache)
+            if (PhotonNetwork.KeepAliveInBackground != _cache)
             {
-                _cache = PhotonNetwork.BackgroundTimeout;
+                _cache = PhotonNetwork.KeepAliveInBackground;
                 PropertyValueInput.text = _cache.ToString("F1");
             }
         }
@@ -61,7 +61,7 @@ namespace Photon.Pun.Demo.Cockpit
         public void SubmitForm(string value)
         {
             _cache = float.Parse(value);
-            PhotonNetwork.BackgroundTimeout = _cache;
+            PhotonNetwork.KeepAliveInBackground = _cache;
             //Debug.Log("PhotonNetwork.BackgroundTimeout = " + PhotonNetwork.BackgroundTimeout, this);
         }
     }
