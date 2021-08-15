@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.AI; // AI, 내비게이션 시스템 관련 코드를 가져오기
 
-// 좀비 AI를 구현한다
+// 좀비 AI 구현
 public class Zombie : LivingEntity {
     public LayerMask whatIsTarget; // 추적 대상 레이어
 
@@ -48,14 +48,14 @@ public class Zombie : LivingEntity {
         zombieRenderer = GetComponentInChildren<Renderer>();
     }
 
-    // 적 AI의 초기 스펙을 결정하는 셋업 메서드
+    // 좀비 AI의 초기 스펙을 결정하는 셋업 메서드
     public void Setup(ZombieData zombieData) {
         // 체력 설정
         startingHealth = zombieData.health;
         health = zombieData.damage;
         // 공격력 설정
         damage = zombieData.damage;
-        // 내비메쉬 에이전트의 이동 속도 설정
+        // 내비메시 에이전트의 이동 속도 설정
         navMeshAgent.speed = zombieData.speed;
         // 렌더러가 사용중인 머테리얼의 컬러를 변경, 외형 색이 변함
         zombieRenderer.material.color = zombieData.skinColor;
@@ -142,10 +142,10 @@ public class Zombie : LivingEntity {
         base.Die();
 
         // 다른 AI들을 방해하지 않도록 자신의 모든 콜라이더들을 비활성화
-        Collider[] enemyColliders = GetComponents<Collider>();
-        for (int i = 0; i < enemyColliders.Length; i++)
+        Collider[] zombieColliders = GetComponents<Collider>();
+        for (int i = 0; i < zombieColliders.Length; i++)
         {
-            enemyColliders[i].enabled = false;
+            zombieColliders[i].enabled = false;
         }
 
         // AI 추적을 중지하고 내비메쉬 컴포넌트를 비활성화
