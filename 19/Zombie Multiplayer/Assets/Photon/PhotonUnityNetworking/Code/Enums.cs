@@ -78,7 +78,7 @@ namespace Photon.Pun
     public enum OwnershipOption
     {
         /// <summary>
-        /// Ownership is fixed. Instantiated objects stick with their creator, scene objects always belong to the Master Client.
+        /// Ownership is fixed. Instantiated objects stick with their creator, room objects always belong to the Master Client.
         /// </summary>
         Fixed,
         /// <summary>

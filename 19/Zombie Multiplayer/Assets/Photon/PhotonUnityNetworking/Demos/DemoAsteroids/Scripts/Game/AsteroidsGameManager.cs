@@ -43,8 +43,6 @@ namespace Photon.Pun.Demo.Asteroids
 
         public void Start()
         {
-            InfoText.text = "Waiting for other players...";
-
             Hashtable props = new Hashtable
             {
                 {AsteroidsGame.PLAYER_LOADED_LEVEL, true}
@@ -91,7 +89,7 @@ namespace Photon.Pun.Demo.Asteroids
                 Vector3 torque = Random.insideUnitSphere * Random.Range(500.0f, 1500.0f);
                 object[] instantiationData = {force, torque, true};
 
-                PhotonNetwork.InstantiateSceneObject("BigAsteroid", position, Quaternion.Euler(Random.value * 360.0f, Random.value * 360.0f, Random.value * 360.0f), 0, instantiationData);
+                PhotonNetwork.InstantiateRoomObject("BigAsteroid", position, Quaternion.Euler(Random.value * 360.0f, Random.value * 360.0f, Random.value * 360.0f), 0, instantiationData);
             }
         }
 
@@ -151,30 +149,49 @@ namespace Photon.Pun.Demo.Asteroids
                 return;
             }
 
+
+            // if there was no countdown yet, the master client (this one) waits until everyone loaded the level and sets a timer start
+            int startTimestamp;
+            bool startTimeIsSet = CountdownTimer.TryGetStartTime(out startTimestamp);
+
             if (changedProps.ContainsKey(AsteroidsGame.PLAYER_LOADED_LEVEL))
             {
                 if (CheckAllPlayerLoadedLevel())
                 {
-                    Hashtable props = new Hashtable
+                    if (!startTimeIsSet)
                     {
-                        {CountdownTimer.CountdownStartTime, (float) PhotonNetwork.Time}
-                    };
-                    PhotonNetwork.CurrentRoom.SetCustomProperties(props);
+                        CountdownTimer.SetStartTime();
+                    }
+                }
+                else
+                {
+                    // not all players loaded yet. wait:
+                    Debug.Log("setting text waiting for players! ",this.InfoText);
+                    InfoText.text = "Waiting for other players...";
                 }
             }
+        
         }
 
         #endregion
 
+        
+        // called by OnCountdownTimerIsExpired() when the timer ended
         private void StartGame()
         {
+            Debug.Log("StartGame!");
+
+            // on rejoin, we have to figure out if the spaceship exists or not
+            // if this is a rejoin (the ship is already network instantiated and will be setup via event) we don't need to call PN.Instantiate
+
+            
             float angularStart = (360.0f / PhotonNetwork.CurrentRoom.PlayerCount) * PhotonNetwork.LocalPlayer.GetPlayerNumber();
             float x = 20.0f * Mathf.Sin(angularStart * Mathf.Deg2Rad);
             float z = 20.0f * Mathf.Cos(angularStart * Mathf.Deg2Rad);
             Vector3 position = new Vector3(x, 0.0f, z);
             Quaternion rotation = Quaternion.Euler(0.0f, angularStart, 0.0f);
 
-            PhotonNetwork.Instantiate("Spaceship", position, rotation, 0);
+            PhotonNetwork.Instantiate("Spaceship", position, rotation, 0);      // avoid this call on rejoin (ship was network instantiated before)
 
             if (PhotonNetwork.IsMasterClient)
             {

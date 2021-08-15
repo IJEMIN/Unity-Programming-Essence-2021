@@ -21,18 +21,14 @@ public class Gun : MonoBehaviourPun, IPunObservable {
     private LineRenderer bulletLineRenderer; // 총알 궤적을 그리기 위한 렌더러
 
     private AudioSource gunAudioPlayer; // 총 소리 재생기
-    public AudioClip shotClip; // 발사 소리
-    public AudioClip reloadClip; // 재장전 소리
-
-    public float damage = 25; // 공격력
+    
+    public GunData gunData; // 총의 현재 데이터
+    
     private float fireDistance = 50f; // 사정거리
 
     public int ammoRemain = 100; // 남은 전체 탄약
-    public int magCapacity = 25; // 탄창 용량
     public int magAmmo; // 현재 탄창에 남아있는 탄약
 
-    public float timeBetFire = 0.12f; // 총알 발사 간격
-    public float reloadTime = 1.8f; // 재장전 소요 시간
     private float lastFireTime; // 총을 마지막으로 발사한 시점
 
     // 주기적으로 자동 실행되는, 동기화 메서드
@@ -78,8 +74,11 @@ public class Gun : MonoBehaviourPun, IPunObservable {
 
 
     private void OnEnable() {
+        // 전체 예비 탄약 양을 초기화
+        ammoRemain = gunData.startAmmoRemain;
         // 현재 탄창을 가득채우기
-        magAmmo = magCapacity;
+        magAmmo = gunData.magCapacity;
+
         // 총의 현재 상태를 총을 쏠 준비가 된 상태로 변경
         state = State.Ready;
         // 마지막으로 총을 쏜 시점을 초기화
@@ -92,7 +91,7 @@ public class Gun : MonoBehaviourPun, IPunObservable {
         // 현재 상태가 발사 가능한 상태
         // && 마지막 총 발사 시점에서 timeBetFire 이상의 시간이 지남
         if (state == State.Ready
-            && Time.time >= lastFireTime + timeBetFire)
+            && Time.time >= lastFireTime + gunData.timeBetFire)
         {
             // 마지막 총 발사 시점을 갱신
             lastFireTime = Time.time;
@@ -136,7 +135,7 @@ public class Gun : MonoBehaviourPun, IPunObservable {
             if (target != null)
             {
                 // 상대방의 OnDamage 함수를 실행시켜서 상대방에게 데미지 주기
-                target.OnDamage(damage, hit.point, hit.normal);
+                target.OnDamage(gunData.damage, hit.point, hit.normal);
             }
 
             // 레이가 충돌한 위치 저장
@@ -168,7 +167,7 @@ public class Gun : MonoBehaviourPun, IPunObservable {
         shellEjectEffect.Play();
 
         // 총격 소리 재생
-        gunAudioPlayer.PlayOneShot(shotClip);
+        gunAudioPlayer.PlayOneShot(gunData.shotClip);
 
         // 선의 시작점은 총구의 위치
         bulletLineRenderer.SetPosition(0, fireTransform.position);
@@ -187,7 +186,7 @@ public class Gun : MonoBehaviourPun, IPunObservable {
     // 재장전 시도
     public bool Reload() {
         if (state == State.Reloading ||
-            ammoRemain <= 0 || magAmmo >= magCapacity)
+            ammoRemain <= 0 || magAmmo >= gunData.magCapacity)
         {
             // 이미 재장전 중이거나, 남은 총알이 없거나
             // 탄창에 총알이 이미 가득한 경우 재장전 할수 없다
@@ -204,13 +203,13 @@ public class Gun : MonoBehaviourPun, IPunObservable {
         // 현재 상태를 재장전 중 상태로 전환
         state = State.Reloading;
         // 재장전 소리 재생
-        gunAudioPlayer.PlayOneShot(reloadClip);
+        gunAudioPlayer.PlayOneShot(gunData.reloadClip);
 
         // 재장전 소요 시간 만큼 처리를 쉬기
-        yield return new WaitForSeconds(reloadTime);
+        yield return new WaitForSeconds(gunData.reloadTime);
 
         // 탄창에 채울 탄약을 계산한다
-        int ammoToFill = magCapacity - magAmmo;
+        int ammoToFill = gunData.magCapacity - magAmmo;
 
         // 탄창에 채워야할 탄약이 남은 탄약보다 많다면,
         // 채워야할 탄약 수를 남은 탄약 수에 맞춰 줄인다

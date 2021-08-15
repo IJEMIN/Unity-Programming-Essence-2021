@@ -70,10 +70,17 @@ namespace Photon.Pun.Demo.Asteroids
             UpdateRoomListView();
         }
 
+        public override void OnJoinedLobby()
+        {
+            // whenever this joins a new lobby, clear any previous room lists
+            cachedRoomList.Clear();
+            ClearRoomListView();
+        }
+
+        // note: when a client joins / creates a room, OnLeftLobby does not get called, even if the client was in a lobby before
         public override void OnLeftLobby()
         {
             cachedRoomList.Clear();
-
             ClearRoomListView();
         }
 
@@ -98,6 +105,10 @@ namespace Photon.Pun.Demo.Asteroids
 
         public override void OnJoinedRoom()
         {
+            // joining (or entering) a room invalidates any cached lobby room list (even if LeaveLobby was not called due to just joining a room)
+            cachedRoomList.Clear();
+
+
             SetActivePanel(InsideRoomPanel.name);
 
             if (playerListEntries == null)
@@ -214,7 +225,7 @@ namespace Photon.Pun.Demo.Asteroids
             byte.TryParse(MaxPlayersInputField.text, out maxPlayers);
             maxPlayers = (byte) Mathf.Clamp(maxPlayers, 2, 8);
 
-            RoomOptions options = new RoomOptions {MaxPlayers = maxPlayers};
+            RoomOptions options = new RoomOptions {MaxPlayers = maxPlayers, PlayerTtl = 10000 };
 
             PhotonNetwork.CreateRoom(roomName, options, null);
         }
