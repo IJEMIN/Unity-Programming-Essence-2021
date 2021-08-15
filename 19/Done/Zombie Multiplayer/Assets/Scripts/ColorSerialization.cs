@@ -2,7 +2,7 @@
 using UnityEngine;
 
 public class ColorSerialization {
-    private static readonly byte[] colorMemory = new byte[4 * 4];
+    private static byte[] colorMemory = new byte[4 * 4];
 
     public static short SerializeColor(StreamBuffer outStream, object targetObject) {
         Color color = (Color) targetObject;

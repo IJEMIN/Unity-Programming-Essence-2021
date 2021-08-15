@@ -37,7 +37,7 @@ public class ZombieSpawner : MonoBehaviourPun, IPunObservable {
         }
     }
 
-    void Awake() {
+    private void Awake() {
         PhotonPeer.RegisterType(typeof(Color), 128, ColorSerialization.SerializeColor,
             ColorSerialization.DeserializeColor);
     }
@@ -53,7 +53,7 @@ public class ZombieSpawner : MonoBehaviourPun, IPunObservable {
                 return;
             }
 
-            // 좀비를 모두 물리친 경우 다음 스폰 실행
+            // 좀비들을 모두 물리친 경우 다음 스폰 실행
             if (zombies.Count <= 0)
             {
                 SpawnWave();
