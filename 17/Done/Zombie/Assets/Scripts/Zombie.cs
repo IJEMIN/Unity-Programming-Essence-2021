@@ -2,12 +2,12 @@
 using UnityEngine;
 using UnityEngine.AI; // AI, 내비게이션 시스템 관련 코드를 가져오기
 
-// 적 AI를 구현한다
+// 좀비 AI를 구현한다
 public class Zombie : LivingEntity {
     public LayerMask whatIsTarget; // 추적 대상 레이어
 
     private LivingEntity targetEntity; // 추적할 대상
-    private NavMeshAgent pathFinder; // 경로계산 AI 에이전트
+    private NavMeshAgent navMeshAgent; // 경로계산 AI 에이전트
 
     public ParticleSystem hitEffect; // 피격시 재생할 파티클 효과
     public AudioClip deathSound; // 사망시 재생할 소리
@@ -39,7 +39,7 @@ public class Zombie : LivingEntity {
 
     private void Awake() {
         // 게임 오브젝트로부터 사용할 컴포넌트들을 가져오기
-        pathFinder = GetComponent<NavMeshAgent>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
         zombieAnimator = GetComponent<Animator>();
         zombieAudioPlayer = GetComponent<AudioSource>();
 
@@ -49,17 +49,16 @@ public class Zombie : LivingEntity {
     }
 
     // 적 AI의 초기 스펙을 결정하는 셋업 메서드
-    public void Setup(float newHealth, float newDamage,
-        float newSpeed, Color skinColor) {
+    public void Setup(ZombieData zombieData) {
         // 체력 설정
-        startingHealth = newHealth;
-        health = newHealth;
+        startingHealth = zombieData.health;
+        health = zombieData.damage;
         // 공격력 설정
-        damage = newDamage;
+        damage = zombieData.damage;
         // 내비메쉬 에이전트의 이동 속도 설정
-        pathFinder.speed = newSpeed;
+        navMeshAgent.speed = zombieData.speed;
         // 렌더러가 사용중인 머테리얼의 컬러를 변경, 외형 색이 변함
-        zombieRenderer.material.color = skinColor;
+        zombieRenderer.material.color = zombieData.skinColor;
     }
 
     private void Start() {
@@ -80,14 +79,14 @@ public class Zombie : LivingEntity {
             if (hasTarget)
             {
                 // 추적 대상 존재 : 경로를 갱신하고 AI 이동을 계속 진행
-                pathFinder.isStopped = false;
-                pathFinder.SetDestination(
+                navMeshAgent.isStopped = false;
+                navMeshAgent.SetDestination(
                     targetEntity.transform.position);
             }
             else
             {
                 // 추적 대상 없음 : AI 이동 중지
-                pathFinder.isStopped = true;
+                navMeshAgent.isStopped = true;
 
                 // 20 유닛의 반지름을 가진 가상의 구를 그렸을때, 구와 겹치는 모든 콜라이더를 가져옴
                 // 단, whatIsTarget 레이어를 가진 콜라이더만 가져오도록 필터링
@@ -150,8 +149,8 @@ public class Zombie : LivingEntity {
         }
 
         // AI 추적을 중지하고 내비메쉬 컴포넌트를 비활성화
-        pathFinder.isStopped = true;
-        pathFinder.enabled = false;
+        navMeshAgent.isStopped = true;
+        navMeshAgent.enabled = false;
 
         // 사망 애니메이션 재생
         zombieAnimator.SetTrigger("Die");

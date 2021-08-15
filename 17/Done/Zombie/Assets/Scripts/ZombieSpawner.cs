@@ -1,25 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-// 적 게임 오브젝트를 주기적으로 생성
+// 좀비 게임 오브젝트를 주기적으로 생성
 public class ZombieSpawner : MonoBehaviour {
-    public Zombie zombiePrefab; // 생성할 적 AI
+    public Zombie zombiePrefab; // 생성할 좀비 원본 프리팹
 
-    public Transform[] spawnPoints; // 적 AI를 소환할 위치들
+    public ZombieData[] zombieDatas; // 사용할 좀비 셋업 데이터들
+    public Transform[] spawnPoints; // 좀비 AI를 소환할 위치들
 
-    public float damageMax = 40f; // 최대 공격력
-    public float damageMin = 20f; // 최소 공격력
-
-    public float healthMax = 200f; // 최대 체력
-    public float healthMin = 100f; // 최소 체력
-
-    public float speedMax = 3f; // 최대 속도
-    public float speedMin = 1f; // 최소 속도
-
-    public Color strongEnemyColor = Color.red; // 강한 적 AI가 가지게 될 피부색
-
-    private List<Zombie> enemies = new List<Zombie>(); // 생성된 적들을 담는 리스트
+    private List<Zombie> zombies = new List<Zombie>(); // 생성된 좀비들을 담는 리스트
     private int wave; // 현재 웨이브
 
     private void Update() {
@@ -29,8 +18,8 @@ public class ZombieSpawner : MonoBehaviour {
             return;
         }
 
-        // 적을 모두 물리친 경우 다음 스폰 실행
-        if (enemies.Count <= 0)
+        // 좀비를 모두 물리친 경우 다음 스폰 실행
+        if (zombies.Count <= 0)
         {
             SpawnWave();
         }
@@ -41,56 +30,49 @@ public class ZombieSpawner : MonoBehaviour {
 
     // 웨이브 정보를 UI로 표시
     private void UpdateUI() {
-        // 현재 웨이브와 남은 적의 수 표시
-        UIManager.instance.UpdateWaveText(wave, enemies.Count);
+        // 현재 웨이브와 남은 좀비의 수 표시
+        UIManager.instance.UpdateWaveText(wave, zombies.Count);
     }
 
-    // 현재 웨이브에 맞춰 적을 생성
+    // 현재 웨이브에 맞춰 좀비들을 생성
     private void SpawnWave() {
         // 웨이브 1 증가
         wave++;
 
-        // 현재 웨이브 * 1.5에 반올림 한 개수 만큼 적을 생성
+        // 현재 웨이브 * 1.5에 반올림 한 개수 만큼 좀비를 생성
         int spawnCount = Mathf.RoundToInt(wave * 1.5f);
 
         // spawnCount 만큼 적을 생성
         for (int i = 0; i < spawnCount; i++)
         {
-            // 적의 세기를 0%에서 100% 사이에서 랜덤 결정
-            float enemyIntensity = Random.Range(0f, 1f);
-            // 적 생성 처리 실행
-            CreateEnemy(enemyIntensity);
+            // 좀비 생성 처리 실행
+            CreateZombie();
         }
     }
 
-    // 적을 생성하고 생성한 적에게 추적할 대상을 할당
-    private void CreateEnemy(float intensity) {
-        // intensity를 기반으로 적의 능력치 결정
-        float health = Mathf.Lerp(healthMin, healthMax, intensity);
-        float damage = Mathf.Lerp(damageMin, damageMax, intensity);
-        float speed = Mathf.Lerp(speedMin, speedMax, intensity);
-
-        // intensity를 기반으로 하얀색과 enemyStrength 사이에서 적의 피부색 결정
-        Color skinColor = Color.Lerp(Color.white, strongEnemyColor, intensity);
-
+    // 좀비를 생성하고 생성한 좀비에게 추적할 대상을 할당
+    private void CreateZombie() {
+        // 사용할 좀비 데이터 랜덤으로 결정
+        ZombieData zombieData = zombieDatas[Random.Range(0, zombieDatas.Length)];
+        
         // 생성할 위치를 랜덤으로 결정
         Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
 
-        // 적 프리팹으로부터 적 생성
+        // 좀비 프리팹으로부터 좀비 생성
         Zombie zombie = Instantiate(zombiePrefab, spawnPoint.position, spawnPoint.rotation);
 
-        // 생성한 적의 능력치와 추적 대상 설정
-        zombie.Setup(health, damage, speed, skinColor);
+        // 생성한 좀비의 능력치와 추적 대상 설정
+        zombie.Setup(zombieData);
 
-        // 생성된 적을 리스트에 추가
-        enemies.Add(zombie);
+        // 생성된 좀비를 리스트에 추가
+        zombies.Add(zombie);
 
-        // 적의 onDeath 이벤트에 익명 메서드 등록
-        // 사망한 적을 리스트에서 제거
-        zombie.onDeath += () => enemies.Remove(zombie);
-        // 사망한 적을 10 초 뒤에 파괴
+        // 좀비의 onDeath 이벤트에 익명 메서드 등록
+        // 사망한 좀비를 리스트에서 제거
+        zombie.onDeath += () => zombies.Remove(zombie);
+        // 사망한 좀비를 10 초 뒤에 파괴
         zombie.onDeath += () => Destroy(zombie.gameObject, 10f);
-        // 적 사망시 점수 상승
+        // 좀비 사망시 점수 상승
         zombie.onDeath += () => GameManager.instance.AddScore(100);
     }
 }
