@@ -30,7 +30,7 @@ public class ZombieSpawner : MonoBehaviour {
 
     // 웨이브 정보를 UI로 표시
     private void UpdateUI() {
-        // 현재 웨이브와 남은 좀비의 수 표시
+        // 현재 웨이브와 남은 적 수 표시
         UIManager.instance.UpdateWaveText(wave, zombies.Count);
     }
 
@@ -42,7 +42,7 @@ public class ZombieSpawner : MonoBehaviour {
         // 현재 웨이브 * 1.5에 반올림 한 개수 만큼 좀비를 생성
         int spawnCount = Mathf.RoundToInt(wave * 1.5f);
 
-        // spawnCount 만큼 적을 생성
+        // spawnCount 만큼 좀비를 생성
         for (int i = 0; i < spawnCount; i++)
         {
             // 좀비 생성 처리 실행
@@ -61,7 +61,7 @@ public class ZombieSpawner : MonoBehaviour {
         // 좀비 프리팹으로부터 좀비 생성
         Zombie zombie = Instantiate(zombiePrefab, spawnPoint.position, spawnPoint.rotation);
 
-        // 생성한 좀비의 능력치와 추적 대상 설정
+        // 생성한 좀비의 능력치 설정
         zombie.Setup(zombieData);
 
         // 생성된 좀비를 리스트에 추가
