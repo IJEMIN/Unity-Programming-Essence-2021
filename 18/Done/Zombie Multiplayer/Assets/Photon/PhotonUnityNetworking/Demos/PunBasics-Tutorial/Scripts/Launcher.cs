@@ -114,8 +114,8 @@ namespace Photon.Pun.Demo.PunBasics
 				LogFeedback("Connecting...");
 				
 				// #Critical, we must first and foremost connect to Photon Online Server.
-			    PhotonNetwork.GameVersion = this.gameVersion;
 				PhotonNetwork.ConnectUsingSettings();
+                PhotonNetwork.GameVersion = this.gameVersion;
 			}
 		}
 

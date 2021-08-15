@@ -4,7 +4,8 @@
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -13,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AppSettings:
     AppIdRealtime: f46095bf-029a-4308-b826-adc6a662eb0f
+    AppIdFusion: 
     AppIdChat: 
     AppIdVoice: 
     AppVersion: 
@@ -20,25 +22,30 @@ MonoBehaviour:
     FixedRegion: 
     Server: 
     Port: 0
+    ProxyServer: 
     Protocol: 0
+    EnableProtocolFallback: 1
+    AuthMode: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
-  StartInOfflineMode: 0
+  DevRegion: kr
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
+  StartInOfflineMode: 0
   RpcList:
   - AddAmmo
   - ApplyUpdatedHealth
-  - ApplyUpdatedSkin
+  - ClickRpc
+  - DestroyRpc
   - DestroySpaceship
   - Fire
   - OnDamage
-  - ReloadRoutineRPC
   - RespawnSpaceship
   - RestoreHealth
+  - Setup
   - ShotEffectProcessOnClients
   - ShotProcessOnServer
-  - Setup
-  - AddAmmoByServer
   DisableAutoOpenWizard: 1
+  ShowSettings: 0
+  DevRegionSetOnce: 1

@@ -1,10 +1,20 @@
-﻿using UnityEngine;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="Exit Games GmbH"/>
+// <summary>Demo code for Photon Chat in Unity.</summary>
+// <author>developer@exitgames.com</author>
+// --------------------------------------------------------------------------------------------------------------------
 
 
-public class IgnoreUiRaycastWhenInactive : MonoBehaviour, ICanvasRaycastFilter
+using UnityEngine;
+
+
+namespace Photon.Chat.Demo
 {
-    public bool IsRaycastLocationValid(Vector2 screenPoint, Camera eventCamera)
+    public class IgnoreUiRaycastWhenInactive : MonoBehaviour, ICanvasRaycastFilter
     {
-        return gameObject.activeInHierarchy;
+        public bool IsRaycastLocationValid(Vector2 screenPoint, Camera eventCamera)
+        {
+            return this.gameObject.activeInHierarchy;
+        }
     }
 }

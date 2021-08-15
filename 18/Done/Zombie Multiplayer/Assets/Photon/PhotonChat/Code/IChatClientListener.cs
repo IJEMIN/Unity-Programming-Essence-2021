@@ -7,6 +7,7 @@
 
 namespace Photon.Chat
 {
+    using System.Collections.Generic;
     using ExitGames.Client.Photon;
 
     /// <summary>
@@ -62,7 +63,7 @@ namespace Photon.Chat
         /// Result of Subscribe operation. Returns subscription result for every requested channel name.
         /// </summary>
         /// <remarks>
-        /// If multiple channels sent in Subscribe operation, OnSubscribed may be called several times, each call with part of sent array or with single channel in "channels" parameter. 
+        /// If multiple channels sent in Subscribe operation, OnSubscribed may be called several times, each call with part of sent array or with single channel in "channels" parameter.
         /// Calls order and order of channels in "channels" parameter may differ from order of channels in "channels" parameter of Subscribe operation.
         /// </remarks>
         /// <param name="channels">Array of channel names.</param>
@@ -72,7 +73,7 @@ namespace Photon.Chat
         /// <summary>
         /// Result of Unsubscribe operation. Returns for channel name if the channel is now unsubscribed.
         /// </summary>
-        /// If multiple channels sent in Unsubscribe operation, OnUnsubscribed may be called several times, each call with part of sent array or with single channel in "channels" parameter. 
+        /// If multiple channels sent in Unsubscribe operation, OnUnsubscribed may be called several times, each call with part of sent array or with single channel in "channels" parameter.
         /// Calls order and order of channels in "channels" parameter may differ from order of channels in "channels" parameter of Unsubscribe operation.
         /// <param name="channels">Array of channel names that are no longer subscribed.</param>
         void OnUnsubscribed(string[] channels);
@@ -85,5 +86,63 @@ namespace Photon.Chat
         /// <param name="gotMessage">True if the status contains a message you should cache locally. False: This status update does not include a message (keep any you have).</param>
         /// <param name="message">Message that user set.</param>
         void OnStatusUpdate(string user, int status, bool gotMessage, object message);
+
+        /// <summary>
+        /// A user has subscribed to a public chat channel
+        /// </summary>
+        /// <param name="channel">Name of the chat channel</param>
+        /// <param name="user">UserId of the user who subscribed</param>
+        void OnUserSubscribed(string channel, string user);
+
+        /// <summary>
+        /// A user has unsubscribed from a public chat channel
+        /// </summary>
+        /// <param name="channel">Name of the chat channel</param>
+        /// <param name="user">UserId of the user who unsubscribed</param>
+        void OnUserUnsubscribed(string channel, string user);
+
+
+        #if CHAT_EXTENDED
+        
+        /// <summary>
+        /// Properties of a public channel has been changed
+        /// </summary>
+        /// <param name="channel">Channel name in which the properties have changed</param>
+        /// <param name="senderUserId">The UserID of the user who changed the properties</param>
+        /// <param name="properties">The properties that have changed</param>
+        void OnChannelPropertiesChanged(string channel, string senderUserId, Dictionary<object, object> properties);
+
+        /// <summary>
+        /// Properties of a user in a public channel has been changed
+        /// </summary>
+        /// <param name="channel">Channel name in which the properties have changed</param>
+        /// <param name="targetUserId">The UserID whom properties have changed</param>
+        /// <param name="senderUserId">The UserID of the user who changed the properties</param>
+        /// <param name="properties">The properties that have changed</param>
+        void OnUserPropertiesChanged(string channel, string targetUserId, string senderUserId, Dictionary<object, object> properties);
+
+        /// <summary>
+        /// The server uses error events to make the client aware of some issues.
+        /// </summary>
+        /// <remarks>
+        /// This is currently used only in Chat WebHooks.
+        /// </remarks>
+        /// <param name="channel">The name of the channel in which this error info has been received</param>
+        /// <param name="error">The text message of the error info</param>
+        /// <param name="data">Optional error data</param>
+        void OnErrorInfo(string channel, string error, object data);
+        
+        #endif
+
+
+        #if SDK_V4
+        /// <summary>
+        /// Received a broadcast message
+        /// </summary>
+        /// <param name="channel">Name of the chat channel</param>
+        /// <param name="message">Message data</param>
+        void OnReceiveBroadcastMessage(string channel, byte[] message);
+        #endif
+
     }
 }

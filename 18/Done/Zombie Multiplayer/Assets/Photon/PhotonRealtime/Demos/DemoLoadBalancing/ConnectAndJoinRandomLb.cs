@@ -1,14 +1,20 @@
-﻿using System.Collections.Generic;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ConnectAndJoinRandomLb.cs" company="Exit Games GmbH"/>
+// <summary>Prototyping / sample code for Photon Realtime.</summary>
+// <author>developer@exitgames.com</author>
+// --------------------------------------------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using ExitGames.Client.Photon;
 using UnityEngine;
 using UnityEngine.UI;
-using Debug = UnityEngine.Debug;
 
 namespace Photon.Realtime.Demo
 {
     public class ConnectAndJoinRandomLb : MonoBehaviour, IConnectionCallbacks, IMatchmakingCallbacks, ILobbyCallbacks
     {
-        public string AppId; // set in inspector
+        [SerializeField]
+        private AppSettings appSettings = new AppSettings();
         private LoadBalancingClient lbc;
 
         private ConnectionHandler ch;
@@ -17,9 +23,12 @@ namespace Photon.Realtime.Demo
         public void Start()
         {
             this.lbc = new LoadBalancingClient();
-            this.lbc.AppId = this.AppId;
             this.lbc.AddCallbackTarget(this);
-            this.lbc.ConnectToNameServer();
+
+            if (!this.lbc.ConnectUsingSettings(appSettings))
+            {
+                Debug.LogError("Error while connecting");
+            }
 
             this.ch = this.gameObject.GetComponent<ConnectionHandler>();
             if (this.ch != null)

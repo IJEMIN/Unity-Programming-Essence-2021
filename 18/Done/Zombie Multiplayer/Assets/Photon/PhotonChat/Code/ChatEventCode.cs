@@ -25,5 +25,15 @@ namespace Photon.Chat
         public const byte Subscribe = 5;
         /// <summary>(6) Event code for unsubscribe acks. </summary>
         public const byte Unsubscribe = 6;
+        /// <summary>(7) Event code for properties update. </summary>
+        public const byte PropertiesChanged = 7;
+
+        /// <summary>(8) Event code for new user subscription to a channel where <see cref="ChatChannel.PublishSubscribers"/> is enabled. </summary>
+        public const byte UserSubscribed = 8;
+        /// <summary>(9) Event code for when user unsubscribes from a channel where <see cref="ChatChannel.PublishSubscribers"/> is enabled. </summary>
+        public const byte UserUnsubscribed = 9;
+        /// <summary>(10) Event code for when the server sends an error to the client. </summary>
+        /// <remarks> This is currently only used by Chat WebHooks. </remarks>
+        public const byte ErrorInfo = 10;
     }
 }

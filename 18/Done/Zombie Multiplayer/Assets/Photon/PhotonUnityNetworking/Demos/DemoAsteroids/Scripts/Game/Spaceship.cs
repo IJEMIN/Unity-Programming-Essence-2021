@@ -29,9 +29,11 @@ namespace Photon.Pun.Demo.Asteroids
 
         private PhotonView photonView;
 
+#pragma warning disable 0109
         private new Rigidbody rigidbody;
         private new Collider collider;
         private new Renderer renderer;
+#pragma warning restore 0109
 
         private float rotation = 0.0f;
         private float acceleration = 0.0f;
@@ -60,7 +62,13 @@ namespace Photon.Pun.Demo.Asteroids
 
         public void Update()
         {
-            if (!photonView.IsMine || !controllable)
+            if (!photonView.AmOwner || !controllable)
+            {
+                return;
+            }
+
+            // we don't want the master client to apply input to remote ships while the remote player is inactive
+            if (this.photonView.CreatorActorNr != PhotonNetwork.LocalPlayer.ActorNumber)
             {
                 return;
             }
@@ -154,11 +162,11 @@ namespace Photon.Pun.Demo.Asteroids
         [PunRPC]
         public void Fire(Vector3 position, Quaternion rotation, PhotonMessageInfo info)
         {
-            float lag = (float) (PhotonNetwork.Time - info.timestamp);
+            float lag = (float) (PhotonNetwork.Time - info.SentServerTime);
             GameObject bullet;
 
             /** Use this if you want to fire one bullet at a time **/
-            bullet = Instantiate(BulletPrefab, rigidbody.position, Quaternion.identity) as GameObject;
+            bullet = Instantiate(BulletPrefab, position, Quaternion.identity) as GameObject;
             bullet.GetComponent<Bullet>().InitializeBullet(photonView.Owner, (rotation * Vector3.forward), Mathf.Abs(lag));
 
 

@@ -47,7 +47,7 @@ namespace Photon.Pun.UtilityScripts
 
             if (pv != null)
             {
-                text.text = string.Format("id {0} own: {1} {2}{3}", pv.ViewID, pv.OwnerActorNr, (pv.IsSceneView) ? "scn" : "", (pv.IsMine) ? " mine" : "");
+                text.text = string.Format("id {0} own: {1} {2}{3}", pv.ViewID, pv.OwnerActorNr, (pv.IsRoomView) ? "scn" : "", (pv.IsMine) ? " mine" : "");
                 //GUI.Label (new Rect (Input.mousePosition.x + 5, Screen.height - Input.mousePosition.y - 15, 300, 30), );
             }
             else

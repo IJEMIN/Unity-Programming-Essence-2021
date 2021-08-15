@@ -338,7 +338,9 @@ namespace Photon.Pun.Demo.Cockpit
 			_regionPingProcessActive = true;
 			if (debug)	Debug.Log("PunCockpit:PingRegions:ConnectToNameServer");
 
-			_lbc = new LoadBalancingClient (PhotonNetwork.NetworkingClient.ExpectedProtocol);
+
+            _lbc = new LoadBalancingClient();
+            
 			_lbc.AddCallbackTarget(this);
 
 
@@ -431,20 +433,23 @@ namespace Photon.Pun.Demo.Cockpit
             PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable() { { "C0", value } });
         }
 
+        private string roomNameToEnter;
+
         public void JoinRoom(string roomName)
         {
             this.RoomListManager.ResetList();
             this.LobbyPanel.gameObject.SetActive(false);
             this.ConnectingLabel.SetActive(true);
+            this.roomNameToEnter = roomName;
             PhotonNetwork.JoinRoom(roomName);
         }
 
         public void CreateRoom()
         {
-            this.CreateRoom("");
+            this.CreateRoom(null, null, LobbyType.Default);
         }
 
-        public void CreateRoom(string roomName, string lobbyName = "myLobby", LobbyType lobbyType = LobbyType.SqlLobby, string[] expectedUsers = null)
+        public void CreateRoom(string roomName, string lobbyName = "MyLobby", LobbyType lobbyType = LobbyType.SqlLobby, string[] expectedUsers = null)
         {
 			if (debug) Debug.Log("PunCockpit:CreateRoom roomName:" + roomName + " lobbyName:" + lobbyName + " lobbyType:" + lobbyType + " expectedUsers:" + (expectedUsers == null ? "null" : expectedUsers.ToStringFull()));
 
@@ -742,6 +747,20 @@ namespace Photon.Pun.Demo.Cockpit
 
             this.PlayerDetailsManager.SetPlayerTarget(PhotonNetwork.LocalPlayer);
 
+        }
+
+        public override void OnJoinRoomFailed(short returnCode, string message)
+        {
+            switch (returnCode)
+            {
+                case ErrorCode.JoinFailedFoundInactiveJoiner:
+                    if (!string.IsNullOrEmpty(this.roomNameToEnter))
+                    {
+                        PhotonNetwork.RejoinRoom(this.roomNameToEnter);
+                        this.roomNameToEnter = null;
+                    }
+                    break;
+            }
         }
 
         public override void OnLeftRoom()
