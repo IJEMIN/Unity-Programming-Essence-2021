@@ -888,4 +888,4 @@ PlayerSettings:
   playerDataPath: 
   forceSRGBBlit: 1
   virtualTexturingSupportEnabled: 0
-  uploadClearedTextureDataAfterCreationFromScript: 1
+  uploadClearedTextureDataAfterCreationFromScript: 0

@@ -36,11 +36,11 @@ public class ZombieSpawner : MonoBehaviour {
 
     // 현재 웨이브에 맞춰 좀비들을 생성
     private void SpawnWave() {
-
+        
     }
 
     // 좀비를 생성하고 생성한 좀비에게 추적할 대상을 할당
     private void CreateZombie() {
-
+        
     }
 }

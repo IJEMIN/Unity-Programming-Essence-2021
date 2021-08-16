@@ -2,9 +2,11 @@
 using UnityEngine;
 
 // 총을 구현
-public class Gun : MonoBehaviour {
+public class Gun : MonoBehaviour
+{
     // 총의 상태를 표현하는 데 사용할 타입을 선언
-    public enum State {
+    public enum State
+    {
         Ready, // 발사 준비됨
         Empty, // 탄알집이 빔
         Reloading // 재장전 중
@@ -40,12 +42,12 @@ public class Gun : MonoBehaviour {
 
     // 발사 시도
     public void Fire() {
-
+        
     }
 
     // 실제 발사 처리
     private void Shot() {
-      
+        
     }
 
     // 발사 이펙트와 소리를 재생하고 탄알 궤적을 그림
@@ -69,7 +71,7 @@ public class Gun : MonoBehaviour {
     private IEnumerator ReloadRoutine() {
         // 현재 상태를 재장전 중 상태로 전환
         state = State.Reloading;
-      
+
         // 재장전 소요 시간 만큼 처리 쉬기
         yield return new WaitForSeconds(gunData.reloadTime);
 
