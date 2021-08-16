@@ -18,7 +18,8 @@ public class LivingEntity : MonoBehaviour, IDamageable {
     }
 
     // 데미지를 입는 기능
-    public virtual void OnDamage(float damage, Vector3 hitPoint, Vector3 hitNormal) {
+    public virtual void OnDamage(float damage, Vector3 hitPoint,
+        Vector3 hitNormal) {
         // 데미지만큼 체력 감소
         health -= damage;
 
