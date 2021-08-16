@@ -16,7 +16,7 @@ public class PlayerShooter : MonoBehaviour {
         playerInput = GetComponent<PlayerInput>();
         playerAnimator = GetComponent<Animator>();
     }
-    
+
     private void OnEnable() {
         // 슈터가 활성화될 때 총도 함께 활성화
         gun.gameObject.SetActive(true);

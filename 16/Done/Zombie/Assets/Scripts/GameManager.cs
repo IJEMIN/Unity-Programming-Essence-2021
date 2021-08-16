@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-// 점수와 게임 오버 여부를 관리하는 게임 매니저
+// 점수와 게임 오버 여부, 게임 UI를 관리하는 게임 매니저
 public class GameManager : MonoBehaviour {
-    // 싱글톤 접근용 프로퍼티
+    // 외부에서 싱글톤 오브젝트를 가져올때 사용할 프로퍼티
     public static GameManager instance
     {
         get
@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour {
         // 플레이어 캐릭터의 사망 이벤트 발생시 게임 오버
         FindObjectOfType<PlayerHealth>().onDeath += EndGame;
     }
+
 
     // 점수를 추가하고 UI 갱신
     public void AddScore(int newScore) {
