@@ -720,9 +720,9 @@ MonoBehaviour:
     SynchronizeType: 0
     Name: Die
   m_SynchronizeLayers:
-  - SynchronizeType: 2
+  - SynchronizeType: 0
     LayerIndex: 0
-  - SynchronizeType: 2
+  - SynchronizeType: 0
     LayerIndex: 1
 --- !u!1 &2639305934491307208
 GameObject:

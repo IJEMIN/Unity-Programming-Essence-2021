@@ -5638,7 +5638,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 2
+  Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 0
   ObservedComponents:
@@ -5685,7 +5685,7 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: HasTarget
   m_SynchronizeLayers:
-  - SynchronizeType: 2
+  - SynchronizeType: 0
     LayerIndex: 0
 --- !u!1 &1433268741761000
 GameObject:
