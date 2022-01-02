@@ -13,18 +13,26 @@
     - [**예스24**](http://www.yes24.com/24/goods/69320872) | [**알라딘**](http://aladin.kr/p/52TQp) | [**교보문고**](http://bit.ly/2DHwAjY)
     - 전자책 : 리디북스와 구글 플레이 북스, 이외의 다양한 이북 스토어에서 찾을 수 있습니다!
 
+## 호환성
+* 유니티 2022와 그 이후 버전을 사용한다면 [업그레이드 가이드](UPGRADE_GUIDE.md)를 참고합니다.
+
+모든 예제 프로젝트는 **Unity 2021.1**을 기준으로 제작되었습니다. 예제 프로젝트들은 Unity 2021.2 등의 이후 버전들과 호환될 수 있도록 유지 관리됩니다.
+
+따라서 상위 버전으로 열수 있지만, 예외 상황을 막기 위해 가능한 Unity 2021.2 버전 사용을 추천합니다.
+
+
 ## 오탈자 확인 페이지
 
-확인된 책 오탈자와 개선사항은 [이곳](https://www.notion.so/17a6c90636034949a0214f51b91a5a71?v=1417dc5c880d4bd8b8611c4053bafeeb)에서 확인할 수 있습니다.
+확인된 책 오탈자와 개선사항은 [이곳](https://iretr0.notion.site/6dfa22f5965d450b86e0b09668db9a9f?v=9e509a1be5cc493ba766a123e6f47379)에서 확인할 수 있습니다.
 
 ## 다운로드
 
 - **중요** : 예제 프로젝트들은 유니티 2021.2 버전을 기준을 제작되었습니다.
 
 ### 권장 : 압축파일 다운로드
-다음 링크에서 압축 파일을 다운로드 합니다 : [**다운로드 하기**](https://github.com/IJEMIN/Unity-Programming-Essence/releases/download/v1.1/Unity-Programming-Essence.zip)
+다음 링크에서 압축 파일을 다운로드 합니다 : [**다운로드 하기**](http://github.com/IJEMIN/Unity-Programming-Essence-2021/releases/download/v1.0/Unity-Programming-Essence.zip)
 
-같은 파일을 깃허브 저장소의 [릴리즈](https://github.com/IJEMIN/Unity-Programming-Essence/releases) 탭이나 한빛미디어 홈페이지에서도 찾아 다운로드 할 수 있습니다.
+같은 파일을 깃허브 저장소의 [릴리즈](http://github.com/IJEMIN/Unity-Programming-Essence-2021/releases) 탭이나 한빛미디어 홈페이지에서도 찾아 다운로드 할 수 있습니다.
 
 ### 저장소를 다운로드(클론)하기
 
@@ -34,15 +42,6 @@
 > 이 저장소는 Git LFS를 사용합니다.
 > <br>깃허브 오른쪽 상단의 초록색 버튼 > 'Downloading Zip'으로는 파일을 정상적으로 다운로드 할 수 없습니다.
 
-# 호환성
-
-* 만약 유니티 2022와 그 이후 버전을 사용한다면 [업그레이드 가이드](UPGRADE_GUIDE.md)를 참고합니다. 
-
-모든 예제 프로젝트는 **Unity 2021.1**을 기준으로 제작되었습니다. 
-
-예제 프로젝트들은 Unity 2021.2 등의 이후 버전들과 호환될 수 있도록 유지 관리됩니다.
-
-따라서 상위 버전으로 열수 있지만, 예외 상황을 막기 위해 가능한 Unity 2021.2 버전 사용을 추천합니다.
 
 # 사용법
 

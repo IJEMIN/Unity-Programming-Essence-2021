@@ -1,1 +1,12 @@
-UPGRADE GUIDE WILL BE HERE
+# 업그레이드 가이드
+유니티 2021 이후 버전을 사용할때 참고할 사항을 안내하는 문서입니다.
+
+온라인 상에서 이 문서는 계속 업데이트되므로 주기적으로 깃허브 페이지(http://github.com/IJEMIN/Unity-Programming-Essence-2021)를 확인하는 것이 좋습니다.
+
+## 유니티 2022.1
+이 문서 파일이 작성된 시점의 유니티 2022.1 버전은 현재 베타 버전입니다.<br>현재로서는 책을 진행하는데 있어 유니티 2022.1 베타 버전과 유니티 2021.1 버전의 사용법 차이가 없습니다.
+
+베타 버전의 새로운 기능은 다음 유니티 블로그 포스트에서 확인 가능합니다.
+- https://blog.unity.com/technology/unity-20221-beta-is-now-available-for-feedback
+
+
