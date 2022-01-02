@@ -30,7 +30,7 @@
 - **중요** : 예제 프로젝트들은 유니티 2021.2 버전을 기준을 제작되었습니다.
 
 ### 권장 : 압축파일 다운로드
-다음 링크에서 압축 파일을 다운로드 합니다 : [**다운로드 하기**](http://github.com/IJEMIN/Unity-Programming-Essence-2021/releases/download/v1.0/Unity-Programming-Essence.zip)
+다음 링크에서 압축 파일을 다운로드 합니다 : [**다운로드 하기**](http://github.com/IJEMIN/Unity-Programming-Essence-2021/releases/download/v1.0/Unity-Programming-Essence-2021.zip)
 
 같은 파일을 깃허브 저장소의 [릴리즈](http://github.com/IJEMIN/Unity-Programming-Essence-2021/releases) 탭이나 한빛미디어 홈페이지에서도 찾아 다운로드 할 수 있습니다.
 
