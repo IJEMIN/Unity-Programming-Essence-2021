@@ -2,21 +2,25 @@
 
 
 # retr0의 유니티 에센스
-이 곳은 [**레트로의 유니티 게임 프로그래밍 에센스**](http://www.yes24.com/24/goods/69320872)(2021)의 예제 프로젝트 저장소입니다.
+이 곳은 [**레트로의 유니티 게임 프로그래밍 에센스**](http://www.yes24.com/Product/Goods/106537338)(2021)의 예제 프로젝트 저장소입니다.
 
 >저자 : 이제민(I_Jemin) | 출판사 : 한빛미디어
 
 ![book](readme_images/book.jpg)
-- 참고 : [**레트로의 유니티 게임 프로그래밍 에센스**](http://www.yes24.com/24/goods/69320872)는 세상에서 최고로 잘쓴 **유니티, C#, 선형대수, 디자인패턴, 네트워크 게임 개발** 입문서 입니다. 😎
+- 참고 : [**레트로의 유니티 게임 프로그래밍 에센스**](http://www.yes24.com/Product/Goods/106537338)는 세상에서 최고로 잘쓴 **유니티, C#, 선형대수, 디자인패턴, 네트워크 게임 개발** 입문서 입니다. 😎
 
 - **도서 구매처** 😘
-    - [**예스24**](http://www.yes24.com/24/goods/69320872) | [**알라딘**](http://aladin.kr/p/52TQp) | [**교보문고**](http://bit.ly/2DHwAjY)
+    - [**예스24**](http://www.yes24.com/Product/Goods/106537338) | [**알라딘**](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=287769309) | [**교보문고**](http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&mallGb=KOR&barcode=9791162245149&orderClick=LOA&Kc=)
     - 전자책 : 리디북스와 구글 플레이 북스, 이외의 다양한 이북 스토어에서 찾을 수 있습니다!
+
+## 커뮤니티
+* [디스코드 채널](https://discord.gg/ncdF2ePJcW)
+* [유튜브](https://youtube.com/c/jemindev)
 
 ## 호환성
 * 유니티 2022와 그 이후 버전을 사용한다면 [업그레이드 가이드](UPGRADE_GUIDE.md)를 참고합니다.
 
-모든 예제 프로젝트는 **Unity 2021.1**을 기준으로 제작되었습니다. 예제 프로젝트들은 Unity 2021.2 등의 이후 버전들과 호환될 수 있도록 유지 관리됩니다.
+모든 예제 프로젝트는 **Unity 2021.2**을 기준으로 제작되었습니다. 예제 프로젝트들은 Unity 2021.2 등의 이후 버전들과 호환될 수 있도록 유지 관리됩니다.
 
 따라서 상위 버전으로 열수 있지만, 예외 상황을 막기 위해 가능한 Unity 2021.2 버전 사용을 추천합니다.
 
