@@ -14,7 +14,7 @@
     - 전자책 : 리디북스와 구글 플레이 북스, 이외의 다양한 이북 스토어에서 찾을 수 있습니다!
 
 ## 커뮤니티
-* [디스코드 채널](https://discord.gg/ncdF2ePJcW)
+* [디스코드 채널](https://retr0.io/discord)
 * [유튜브](https://youtube.com/c/jemindev)
 
 ## 호환성
