@@ -14,6 +14,8 @@
 
 #### UGUI의 텍스트와 버튼을 생성하는 메뉴가 + > UI > Legacy 하위로 옮겨졌습니다.
 
+- *Text Mesh Pro 패키지가 설치된 경우에만 변경됩니다.*
+
 ![menu_changes](readme_images/screenshot_menu_changes.png)
 
 **기존 텍스트와 버튼 생성**
@@ -31,6 +33,8 @@
 
 
 #### UGUI의 텍스트와 버튼을 생성하는 메뉴가 + > UI > Legacy 하위로 옮겨졌습니다.
+
+- *Text Mesh Pro 패키지가 설치된 경우에만 변경됩니다.*
 
 ![menu_changes](readme_images/screenshot_menu_changes.png)
 
