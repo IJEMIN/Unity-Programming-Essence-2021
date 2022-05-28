@@ -8,28 +8,36 @@
 유니티 2021.3은 LTS 버전으로서 Unity 2021.2의 안정화 버전입니다.
 따라서 유니티 2021.2 버전으로 작성된 프로젝트는 대부분 무리 없이 유니티 2021.3 버전으로 열립니다.
 
-- 유니티 2021.3 버전을 설치하는 방법은 유니티 허브를 통해 유니티 2021.2 버전을 설치하는 방법과 같습니다.
+- 유니티 허브를 통해 유니티 2021.2 버전을 설치하는 방법과 같습니다.
 
 ### 달라진점
-UGUI의 텍스트와 버튼을 생성하는 메뉴가 다음과 같이 변경되었습니다.
 
-- 기존 : + > UI > Text
-- 현재 : + > UI > Legacy > Text
+#### UGUI의 텍스트와 버튼을 생성하는 메뉴가 + > UI > Legacy 하위로 옮겨졌습니다.
 
-- 기존 : + > UI > Button
-- 현재 : + > UI > Legacy > Button
+![menu_changes](readme_images/screenshot_menu_changes.png)
+
+**기존 텍스트와 버튼 생성**
+- \+ > UI > Text
+- \+ > UI > Button
+
+**현재 텍스트와 버튼 생성**
+- \+ > UI > Legacy > Text
+- \+ > UI > Legacy > Button
 
 ## 유니티 2022
 
-### 설치하기
-- 유니티 2022 버전을 설치하는 방법은 유니티 허브를 통해 유니티 2021 버전을 설치하는 방법과 같습니다.
+### 설치방법
+- 유니티 허브를 통해 유니티 2021 버전을 설치하는 방법과 같습니다.
 
 
-### 달라진점
-UGUI의 텍스트와 버튼을 생성하는 메뉴가 다음과 같이 변경되었습니다.
+#### UGUI의 텍스트와 버튼을 생성하는 메뉴가 + > UI > Legacy 하위로 옮겨졌습니다.
 
-- 기존 : + > UI > Text
-- 현재 : + > UI > Legacy > Text
+![menu_changes](readme_images/screenshot_menu_changes.png)
 
-- 기존 : + > UI > Button
-- 현재 : + > UI > Legacy > Button
+**기존 텍스트와 버튼 생성**
+- \+ > UI > Text
+- \+ > UI > Button
+
+**현재 텍스트와 버튼 생성**
+- \+ > UI > Legacy > Text
+- \+ > UI > Legacy > Button
