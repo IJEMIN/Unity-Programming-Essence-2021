@@ -33,17 +33,17 @@ public class PlayerController : MonoBehaviour {
             // 점프 횟수 증가
             jumpCount++;
             // 점프 직전에 속도를 순간적으로 제로(0, 0)로 변경
-            playerRigidbody.velocity = Vector2.zero;
+            playerRigidbody.linearVelocity = Vector2.zero;
             // 리지드바디에 위쪽으로 힘을 주기
             playerRigidbody.AddForce(new Vector2(0, jumpForce));
             // 오디오 소스 재생
             playerAudio.Play();
         }
-        else if (Input.GetMouseButtonUp(0) && playerRigidbody.velocity.y > 0)
+        else if (Input.GetMouseButtonUp(0) && playerRigidbody.linearVelocity.y > 0)
         {
             // 마우스 왼쪽 버튼에서 손을 떼는 순간 && 속도의 y 값이 양수라면 (위로 상승 중)
             // 현재 속도를 절반으로 변경
-            playerRigidbody.velocity = playerRigidbody.velocity * 0.5f;
+            playerRigidbody.linearVelocity = playerRigidbody.linearVelocity * 0.5f;
         }
 
         // 애니메이터의 Grounded 파라미터를 isGrounded 값으로 갱신
@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour {
         playerAudio.Play();
 
         // 속도를 제로(0, 0)로 변경
-        playerRigidbody.velocity = Vector2.zero;
+        playerRigidbody.linearVelocity = Vector2.zero;
         // 사망 상태를 true로 변경
         isDead = true;
     }
