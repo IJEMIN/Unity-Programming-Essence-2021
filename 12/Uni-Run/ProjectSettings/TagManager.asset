@@ -48,7 +48,7 @@ TagManager:
   - name: Middleground
     uniqueID: 76638519
     locked: 0
-  - name: foreground
+  - name: Foreground
     uniqueID: 1167145595
     locked: 0
   m_RenderingLayers:
