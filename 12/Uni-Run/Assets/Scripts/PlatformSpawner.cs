@@ -25,7 +25,7 @@ public class PlatformSpawner : MonoBehaviour {
         platforms = new GameObject[count];
 
         for(int i = 0; i<count; i++){
-            platform[i] = instantiate(platformPrefab, poolPosition, Quaternion.identity);
+            platforms[i] = Instantiate(platformPrefab, poolPosition, Quaternion.identity);
         }
         lastSpawnTime = 0f;
         timeBetSpawn = 0f;
