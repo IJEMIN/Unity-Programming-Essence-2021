@@ -1,0 +1,17 @@
+{
+  "name": "com.unity.multiplayer.center",
+  "displayName": "Multiplayer Center",
+  "version": "1.0.1",
+  "unity": "6000.0",
+  "description": "The multiplayer center provides a starting point to create multiplayer games. It will recommend specific packages and enable you to easily access integrations, samples and documentation.",
+  "dependencies": {
+    "com.unity.modules.uielements": "1.0.0"
+  },
+  "keywords": [
+    "Multiplayer",
+    "Netcode",
+    "Services",
+    "Tools"
+  ],
+  "_fingerprint": "f01f4ba8d00afa4e957bddf0fcd1612a564401ff"
+}

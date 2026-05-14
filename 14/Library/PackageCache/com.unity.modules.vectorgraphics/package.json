@@ -1,0 +1,13 @@
+{
+  "name": "com.unity.modules.vectorgraphics",
+  "version": "1.0.0",
+  "type": "module",
+  "displayName": "Vector Graphics",
+  "description": "",
+  "icon": null,
+  "dependencies": {
+    "com.unity.modules.uielements": "1.0.0",
+    "com.unity.modules.imageconversion": "1.0.0",
+    "com.unity.modules.imgui": "1.0.0"
+  }
+}

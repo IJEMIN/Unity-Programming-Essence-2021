@@ -1,27 +1,36 @@
 ﻿using UnityEngine;
 
-// 발판으로서 필요한 동작을 담은 스크립트
 public class Platform : MonoBehaviour {
-    public GameObject[] obstacles; // 장애물 오브젝트들
-    private bool stepped = false; // 플레이어 캐릭터가 밟았었는가
+    public GameObject[] obstacles; // 장애물들
+    public GameObject coinGroup;   // 코인 그룹
+    private bool stepped = false;  // 밟았는지 체크
 
-    // 컴포넌트가 활성화될때 마다 매번 실행되는 메서드
+    // 발판이 활성화될 때마다 실행되는 함수
     private void OnEnable() {
-        // 발판을 리셋하는 처리
         stepped = false;
-        for(int i = 0; i < obstacles.Length; i++){
-            if(Random.Range(0, 3) == 0){
-                obstacles[i].SetActive(true);
-            }
-            else{
-                obstacles[i].SetActive(false);
+
+        // 1. 장애물 랜덤 활성화
+        for (int i = 0; i < obstacles.Length; i++) {
+            // 33% 확률로 장애물 활성화
+            obstacles[i].SetActive(Random.Range(0, 3) == 0);
+        }
+
+        // 2. 코인 개별 랜덤 활성화 (우리가 만든 새 로직)
+        if (coinGroup != null) {
+            coinGroup.SetActive(true); // 그룹은 켜두고
+
+            // 자식 코인들을 하나씩 검사
+            foreach (Transform child in coinGroup.transform) {
+                // 50% 확률로 각 코인을 보여줄지 말지 결정
+                bool shouldShow = (Random.Range(0, 2) == 0);
+                child.gameObject.SetActive(shouldShow);
             }
         }
     }
 
+    // 플레이어가 밟았을 때 점수 추가 (기존 유니런 로직)
     void OnCollisionEnter2D(Collision2D collision) {
-        // 플레이어 캐릭터가 자신을 밟았을때 점수를 추가하는 처리
-        if(collision.collider.tag == "Player" && !stepped){
+        if (collision.collider.tag == "Player" && !stepped) {
             stepped = true;
             GameManager.instance.AddScore(1);
         }

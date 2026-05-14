@@ -1,0 +1,11 @@
+{
+  "name": "com.unity.modules.adaptiveperformance",
+  "version": "1.0.0",
+  "type": "module",
+  "displayName": "Adaptive Performance",
+  "description": "Adaptive Performance is a built-in module that allows users to adjust settings based on performance metrics. Scripting API: https://docs.unity3d.com/ScriptReference/UnityEngine.AdaptivePerformanceModule.html",
+  "icon": null,
+  "dependencies": {
+    "com.unity.modules.subsystems": "1.0.0"
+  }
+}
