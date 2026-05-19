@@ -29,6 +29,7 @@ public class PlayerShooter : MonoBehaviour {
 
     private void Update() {
         // 입력을 감지하고 총 발사하거나 재장전
+        playerAnimator.SetTrigger("Reload");
     }
 
     // 탄약 UI 갱신
@@ -42,6 +43,6 @@ public class PlayerShooter : MonoBehaviour {
 
     // 애니메이터의 IK 갱신
     private void OnAnimatorIK(int layerIndex) {
-        
+        gunPivot.position = playerAnimator.GetIKHintPosition(AvatarIKHint.RightElbow);    
     }
 }

@@ -1,52 +1,39 @@
 ﻿using UnityEngine;
 
-// 발판을 생성하고 주기적으로 재배치하는 스크립트
 public class PlatformSpawner : MonoBehaviour {
-    public GameObject platformPrefab; // 생성할 발판의 원본 프리팹
-    public int count = 3; // 생성할 발판의 개수
+    public GameObject platformPrefab; 
+    public int count = 30; // 위로 쌓을 발판 개수
+    
+    public float verticalInterval = 2.5f; // [중요] 발판 사이 높이를 3.5에서 2.5로 낮춰서 점프가 닿게 만듭니다.
+    public float minX = -4.5f; 
+    public float maxX = 4.5f;  
+    public float minWidth = 1.5f; 
+    public float maxWidth = 3f;   
 
-    public float timeBetSpawnMin = 1.25f; // 다음 배치까지의 시간 간격 최솟값
-    public float timeBetSpawnMax = 2.25f; // 다음 배치까지의 시간 간격 최댓값
-    private float timeBetSpawn; // 다음 배치까지의 시간 간격
-
-    public float yMin = -3.5f; // 배치할 위치의 최소 y값
-    public float yMax = 1.5f; // 배치할 위치의 최대 y값
-    private float xPos = 20f; // 배치할 위치의 x 값
-
-    private GameObject[] platforms; // 미리 생성한 발판들
-    private int currentIndex = 0; // 사용할 현재 순번의 발판
-
-    private Vector2 poolPosition = new Vector2(0, -25); // 초반에 생성된 발판들을 화면 밖에 숨겨둘 위치
-    private float lastSpawnTime; // 마지막 배치 시점
-
+    private float nextSpawnY = 2f; 
+    private bool spawnOnRight = true; // 좌우 번갈아가며 생성하기 위한 변수
 
     void Start() {
-        // 변수들을 초기화하고 사용할 발판들을 미리 생성
-        platforms = new GameObject[count];
+        for (int i = 0; i < count; i++) {
+            float randomX;
 
-        for(int i = 0; i<count; i++){
-            platforms[i] = Instantiate(platformPrefab, poolPosition, Quaternion.identity);
-        }
-        lastSpawnTime = 0f;
-        timeBetSpawn = 0f;
-    }
-
-    void Update() {
-        // 순서를 돌아가며 주기적으로 발판을 배치
-        if(GameManager.instance.isGameover){
-            return;
-        }
-        if(Time.time >= lastSpawnTime + timeBetSpawn){
-            lastSpawnTime = Time.time;
-            timeBetSpawn = Random.Range(timeBetSpawnMin, timeBetSpawnMax);
-            float yPos = Random.Range(yMin, yMax);
-            platforms[currentIndex].SetActive(false);
-            platforms[currentIndex].SetActive(true);
-            platforms[currentIndex].transform.position = new Vector2(xPos, yPos);
-            currentIndex++;
-            if(currentIndex >= count){
-                currentIndex = 0;
+            // 지그재그 알고리즘: 이전 발판 위치에 따라 다음 발판 위치 영역을 강제 지정합니다.
+            if (spawnOnRight) {
+                randomX = Random.Range(1f, maxX); // 오른쪽 구역에 생성
+            } else {
+                randomX = Random.Range(minX, -1f); // 왼쪽 구역에 생성
             }
+            
+            // 다음 발판은 반대편에 생성되도록 뒤집기
+            spawnOnRight = !spawnOnRight;
+
+            Vector2 spawnPos = new Vector2(randomX, nextSpawnY);
+            GameObject newPlatform = Instantiate(platformPrefab, spawnPos, Quaternion.identity);
+            
+            float randomWidth = Random.Range(minWidth, maxWidth);
+            newPlatform.transform.localScale = new Vector3(randomWidth, 1f, 1f);
+
+            nextSpawnY += verticalInterval;
         }
     }
 }

@@ -1,92 +1,99 @@
 ﻿using UnityEngine;
 
-// PlayerController는 플레이어 캐릭터로서 Player 게임 오브젝트를 제어한다.
 public class PlayerController : MonoBehaviour {
-    public AudioClip deathClip; // 사망시 재생할 오디오 클립
-    public float jumpForce = 700f; // 점프 힘
+    public AudioClip deathClip; 
+    public float moveSpeed = 5f; // 좌우 이동 속도 추가
+    public float maxChargeTime = 2f; // 최대 기 모으기 시간 (2초면 풀충전)
+    public float maxJumpForce = 25f; // 풀충전 시 점프 힘 (AddForce가 아닌 velocity 방식을 쓸 거라 숫자가 낮아집니다)
 
-    private int jumpCount = 0; // 누적 점프 횟수
-    private bool isGrounded = false; // 바닥에 닿았는지 나타냄
-    private bool isDead = false; // 사망 상태
+    private bool isGrounded = false; 
+    private bool isDead = false; 
 
-    private Rigidbody2D playerRigidbody; // 사용할 리지드바디 컴포넌트
-    private Animator animator; // 사용할 애니메이터 컴포넌트
-    private AudioSource playerAudio; // 사용할 오디오 소스 컴포넌트
+    private Rigidbody2D playerRigidbody; 
+    private Animator animator; 
+    private AudioSource playerAudio; 
+
+    private bool isCharging = false; // 현재 기를 모으고 있는지 체크
+    private float chargeTime = 0f; // 모인 시간
+    private Vector3 originalScale; // 기 모을 때 찌그러지는 연출용
 
     private void Start() {
-        // 게임 오브젝트로부터 사용할 컴포넌트들을 가져와 변수에 할당
         playerRigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         playerAudio = GetComponent<AudioSource>();
+        originalScale = transform.localScale; // 처음 캐릭터 크기 저장
     }
 
     private void Update() {
-        if (isDead)
-        {
-            // 사망시 처리를 더 이상 진행하지 않고 종료
-            return;
+        if (isDead) return;
+
+        // 1. 좌우 이동 로직 (발판 위든 공중이든 기본 키보드 좌우 방향키나 A, D로 이동)
+        float xInput = Input.GetAxisRaw("Horizontal");
+        playerRigidbody.linearVelocity = new Vector2(xInput * moveSpeed, playerRigidbody.linearVelocity.y);
+
+        // 2. 기 모으기 시작 (마우스 왼쪽 버튼을 누르는 순간 + 바닥에 있을 때만)
+        if (isGrounded && Input.GetMouseButtonDown(0)) {
+            isCharging = true;
+            chargeTime = 0f;
         }
 
-        // 마우스 왼쪽 버튼을 눌렀으며 && 최대 점프 횟수(2)에 도달하지 않았다면
-        if (Input.GetMouseButtonDown(0) && jumpCount < 2)
-        {
-            // 점프 횟수 증가
-            jumpCount++;
-            // 점프 직전에 속도를 순간적으로 제로(0, 0)로 변경
-            playerRigidbody.linearVelocity = Vector2.zero;
-            // 리지드바디에 위쪽으로 힘을 주기
-            playerRigidbody.AddForce(new Vector2(0, jumpForce));
-            // 오디오 소스 재생
-            playerAudio.Play();
-        }
-        else if (Input.GetMouseButtonUp(0) && playerRigidbody.linearVelocity.y > 0)
-        {
-            // 마우스 왼쪽 버튼에서 손을 떼는 순간 && 속도의 y 값이 양수라면 (위로 상승 중)
-            // 현재 속도를 절반으로 변경
-            playerRigidbody.linearVelocity = playerRigidbody.linearVelocity * 0.5f;
+        // 3. 기 모으는 중 처리
+        if (isCharging) {
+            chargeTime += Time.deltaTime;
+            if (chargeTime > maxChargeTime) chargeTime = maxChargeTime; // 최대치 고정
+
+            // 시각 효과: 기를 모을 때 캐릭터가 위아래로 살짝 압축(찌그러짐)됩니다.
+            transform.localScale = new Vector3(originalScale.x, originalScale.y * 0.7f, originalScale.z);
+
+            // 마우스 버튼에서 손을 떼는 순간 점프 발사!
+            if (Input.GetMouseButtonUp(0)) {
+                Jump();
+            }
         }
 
-        // 애니메이터의 Grounded 파라미터를 isGrounded 값으로 갱신
+        // 애니메이터 파라미터 갱신
         animator.SetBool("Grounded", isGrounded);
     }
 
-    private void Die() {
-        // 애니메이터의 Die 트리거 파라미터를 셋
-        animator.SetTrigger("Die");
+    private void Jump() {
+        isCharging = false;
+        transform.localScale = originalScale; // 캐릭터 크기 원래대로 복구
 
-        // 오디오 소스에 할당된 오디오 클립을 deathClip으로 변경
+        // 기 모은 비율 계산 (0.0 ~ 1.0)
+        float chargePercent = chargeTime / maxChargeTime;
+        float finalJumpForce = maxJumpForce * chargePercent;
+
+        // 순간적으로 위쪽으로 힘을 빡 주기 (Y축 속도를 직접 변경)
+        playerRigidbody.linearVelocity = new Vector2(playerRigidbody.linearVelocity.x, finalJumpForce);
+        
+        playerAudio.Play();
+    }
+
+    private void Die() {
+        animator.SetTrigger("Die");
         playerAudio.clip = deathClip;
-        // 사망 효과음 재생
         playerAudio.Play();
 
-        // 속도를 제로(0, 0)로 변경
         playerRigidbody.linearVelocity = Vector2.zero;
-        // 사망 상태를 true로 변경
         isDead = true;
 
         GameManager.instance.OnPlayerDead();
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.tag == "Dead" && !isDead)
-        {
-            // 충돌한 상대방의 태그가 Dead이며 아직 사망하지 않았다면 Die() 실행
+        if (other.tag == "Dead" && !isDead) {
             Die();
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
-        // 어떤 콜라이더와 닿았으며, 충돌 표면이 위쪽을 보고 있으면
-        if (collision.contacts[0].normal.y > 0.7f)
-        {
-            // isGrounded를 true로 변경하고, 누적 점프 횟수를 0으로 리셋
+        if (collision.contacts[0].normal.y > 0.7f) {
             isGrounded = true;
-            jumpCount = 0;
+            // jumpCount 변수는 이제 필요 없어서 제거했습니다.
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision) {
-        // 어떤 콜라이더에서 떼어진 경우 isGrounded를 false로 변경
         isGrounded = false;
     }
 }
