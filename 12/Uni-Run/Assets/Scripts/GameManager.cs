@@ -1,51 +1,47 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
-    public static GameManager instance;
+    public static GameManager instance; 
 
-    public bool isGameover = false;
-    public Text scoreText;
-    public GameObject gameoverUI;
+    public bool isGameover = false; 
+    public Text scoreText; 
+    public Text coinText; // [추가] 코인 개수를 표시할 UI 텍스트
+    public GameObject gameoverUI; 
 
-    public Text coinText;         
-    public int totalCoins = 0;    
-    public float scoreMultiplier = 1f; 
+    private int score = 0; 
+    private int coinCount = 0; // [추가] 먹은 코인 개수 저장할 변수
 
-    private int score = 0;
-
-    void Awake() {
+    private void Awake() {
         if (instance == null) {
             instance = this;
         } else {
+            Debug.LogWarning("씬에 두 개 이상의 게임 매니저가 존재합니다!");
             Destroy(gameObject);
         }
     }
 
-    void Update() {
-        if(isGameover && Input.GetMouseButtonDown(0)){
+    private void Update() {
+        if (isGameover && Input.GetMouseButtonDown(0)) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 
     public void AddScore(int newScore) {
-        if(!isGameover){
-            score += (int)(newScore * scoreMultiplier);
-            scoreText.text = "Score : " + score;
+        if (!isGameover) {
+            score += newScore;
+            scoreText.text = "SCORE : " + score;
         }
     }
 
+    // [중요] Coin.cs가 애타게 찾던 그 함수를 만들어 줍니다!
     public void AddCoin(int amount) {
         if (!isGameover) {
-            totalCoins += amount;
-            UpdateCoinUI();
-        }
-    }
-
-    public void UpdateCoinUI() {
-        if (coinText != null) {
-            coinText.text = "Coins : " + totalCoins;
+            coinCount += amount;
+            if (coinText != null) {
+                coinText.text = "COIN : " + coinCount;
+            }
         }
     }
 
