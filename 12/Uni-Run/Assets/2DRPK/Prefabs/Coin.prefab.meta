@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 49e6ee33250214a9facc214f3a2fecb7
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 22009
+  packageName: 2D Coin Animated - 2D RPK
+  packageVersion: 1.0
+  assetPath: Assets/2DRPK/Prefabs/Coin.prefab
+  uploadId: 22482

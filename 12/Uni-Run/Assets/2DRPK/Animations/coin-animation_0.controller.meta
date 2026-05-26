@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b04b8963686e349daaf669d261d20a83
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 22009
+  packageName: 2D Coin Animated - 2D RPK
+  packageVersion: 1.0
+  assetPath: Assets/2DRPK/Animations/coin-animation_0.controller
+  uploadId: 22482
