@@ -735,7 +735,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 4
+  m_Constraints: 5
 --- !u!212 &535158112
 SpriteRenderer:
   serializedVersion: 2
@@ -958,7 +958,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 660491797}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 649efa25ad21f497fb803a5b36ada1e8, type: 3}
+  m_Script: {fileID: 11500000, guid: a06f07de3d6a3a743bd6d28825959a35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScrollingObject
   speed: 10
@@ -1064,8 +1064,8 @@ MonoBehaviour:
   count: 3
   timeBetSpawnMin: 1.25
   timeBetSpawnMax: 2.25
-  yMin: -3.5
-  yMax: 1.5
+  yMin: -2
+  yMax: 2
 --- !u!4 &1153664827
 Transform:
   m_ObjectHideFlags: 0
@@ -1277,6 +1277,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1799497853}
+  - component: {fileID: 1799497854}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
@@ -1301,6 +1302,19 @@ Transform:
   - {fileID: 2036856269}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1799497854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1799497852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a06f07de3d6a3a743bd6d28825959a35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Sc
+  speed: 10
 --- !u!1 &1829791556
 GameObject:
   m_ObjectHideFlags: 0
@@ -1311,7 +1325,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1829791558}
   - component: {fileID: 1829791557}
-  - component: {fileID: 1829791561}
   - component: {fileID: 1829791560}
   - component: {fileID: 1829791559}
   m_Layer: 0
@@ -1453,19 +1466,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 20.48, y: 10.24}
   m_EdgeRadius: 0
---- !u!114 &1829791561
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1829791556}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 649efa25ad21f497fb803a5b36ada1e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ScrollingObject
-  speed: 10
 --- !u!1 &1833947033
 GameObject:
   m_ObjectHideFlags: 0
@@ -1602,10 +1602,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   isGameover: 0
   scoreText: {fileID: 306354497}
-  gameoverUI: {fileID: 428540015}
   coinText: {fileID: 83522281}
-  totalCoins: 0
-  scoreMultiplier: 1
+  gameoverUI: {fileID: 428540015}
 --- !u!4 &1847669178
 Transform:
   m_ObjectHideFlags: 0
@@ -1709,7 +1707,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2036856269}
   - component: {fileID: 2036856268}
-  - component: {fileID: 2036856267}
   - component: {fileID: 2036856266}
   - component: {fileID: 2036856265}
   m_Layer: 0
@@ -1777,19 +1774,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 20.48, y: 10.24}
   m_EdgeRadius: 0
---- !u!114 &2036856267
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2036856264}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 649efa25ad21f497fb803a5b36ada1e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ScrollingObject
-  speed: 10
 --- !u!212 &2036856268
 SpriteRenderer:
   serializedVersion: 2
@@ -1871,10 +1855,10 @@ SceneRoots:
   - {fileID: 1525910095}
   - {fileID: 660491800}
   - {fileID: 1996304029}
-  - {fileID: 535158113}
   - {fileID: 1799497853}
   - {fileID: 1833947034}
   - {fileID: 738605585}
   - {fileID: 1847669178}
   - {fileID: 1153664827}
   - {fileID: 32756738}
+  - {fileID: 535158113}
