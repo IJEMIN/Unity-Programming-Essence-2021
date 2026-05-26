@@ -1,40 +1,38 @@
 ﻿using UnityEngine;
 
 public class Platform : MonoBehaviour {
-    public GameObject[] obstacles; // 기존 장애물 배열
-    public GameObject[] coins;     // [수정] 단일 오브젝트에서 '코인 배열'로 변경!
-    
-    private bool stepped = false;
+    public GameObject[] obstacles; // 장애물들
+    public GameObject coinGroup;   // 코인 그룹
+    private bool stepped = false;  // 밟았는지 체크
 
-    // 발판이 화면 오른쪽에 새로 배치되어 활성화될 때마다 실행
+    // 발판이 활성화될 때마다 실행되는 함수
     private void OnEnable() {
         stepped = false;
 
-        // 1. 기존 장애물 랜덤 활성화 코드 (3분의 1 확률)
+        // 1. 장애물 랜덤 활성화
         for (int i = 0; i < obstacles.Length; i++) {
-            if (Random.Range(0, 3) == 0) {
-                obstacles[i].SetActive(true);
-            } else {
-                obstacles[i].SetActive(false);
-            }
+            // 33% 확률로 장애물 활성화
+            obstacles[i].SetActive(Random.Range(0, 3) == 0);
         }
 
-        // 2. [수정] 코인들도 각각 독립적으로 랜덤 활성화 (예: 50% 확률)
-        if (coins != null) {
-            for (int i = 0; i < coins.Length; i++) {
-                if (coins[i] != null) {
-                    // Random.Range(0, 2) == 0 이면 50% 확률입니다.
-                    // 확률을 낮추고 싶다면 (0, 3) == 0 (33% 확률) 등으로 조절해 보세요!
-                    coins[i].SetActive(Random.Range(0, 2) == 0); 
-                }
+        // 2. 코인 개별 랜덤 활성화 (우리가 만든 새 로직)
+        if (coinGroup != null) {
+            coinGroup.SetActive(true); // 그룹은 켜두고
+
+            // 자식 코인들을 하나씩 검사
+            foreach (Transform child in coinGroup.transform) {
+                // 50% 확률로 각 코인을 보여줄지 말지 결정
+                bool shouldShow = (Random.Range(0, 2) == 0);
+                child.gameObject.SetActive(shouldShow);
             }
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.collider.CompareTag("Player") && !stepped) {
+    // 플레이어가 밟았을 때 점수 추가 (기존 유니런 로직)
+    void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.collider.tag == "Player" && !stepped) {
             stepped = true;
-            GameManager.instance.AddScore(1); // 발판 밟으면 1점 증가
+            GameManager.instance.AddScore(1);
         }
     }
 }
