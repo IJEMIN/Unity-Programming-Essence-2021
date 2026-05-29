@@ -354,8 +354,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   hitEffect: {fileID: 4478652123793324673}
-  deathClip: {fileID: 8300000, guid: b86f03005ed394911b43027aeaaedeb7, type: 3}
-  hitClip: {fileID: 8300000, guid: c3d8accfc053f004ca665a1c8c4a6919, type: 3}
+  deathSound: {fileID: 0}
+  hitSound: {fileID: 0}
   damage: 20
   timeBetAttack: 0.5
 --- !u!4 &4782540125188141120 stripped

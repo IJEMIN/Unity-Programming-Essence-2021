@@ -2,9 +2,11 @@
 using UnityEngine;
 
 // 총을 구현
-public class Gun : MonoBehaviour {
+public class Gun : MonoBehaviour
+{
     // 총의 상태를 표현하는 데 사용할 타입을 선언
-    public enum State {
+    public enum State
+    {
         Ready, // 발사 준비됨
         Empty, // 탄알집이 빔
         Reloading // 재장전 중
@@ -30,20 +32,22 @@ public class Gun : MonoBehaviour {
     private float lastFireTime; // 총을 마지막으로 발사한 시점
 
     // 재장전 애니메이션을 제어하기 위한 애니메이터 컴포넌트 참조
-    private Animator playerAnimator; 
+    private Animator playerAnimator;
 
-    private void Awake() {
+    private void Awake()
+    {
         // 사용할 컴포넌트의 참조 가져오기
         gunAudioPlayer = GetComponent<AudioSource>();
         bulletLineRenderer = GetComponent<LineRenderer>();
         bulletLineRenderer.positionCount = 2;
         bulletLineRenderer.enabled = false;
-        
+
         // 부모 오브젝트나 자신에게서 Animator 컴포넌트를 안전하게 찾아옴
-        playerAnimator = GetComponentInParent<Animator>(); 
+        playerAnimator = GetComponentInParent<Animator>();
     }
 
-    private void OnEnable() {
+    private void OnEnable()
+    {
         // 총 상태 초기화
         ammoRemain = gunData.startAmmoRemain;
         magAmmo = gunData.magCapacity;
@@ -52,23 +56,41 @@ public class Gun : MonoBehaviour {
     }
 
     // 발사 시도
-    public void Fire() {
+    public void Fire()
+    {
         // 준비 상태이고, 쿨타임이 지났으며, 탄창에 총알이 있을 때만 발사 가능
-        if (state == State.Ready && Time.time >= lastFireTime + gunData.timeBetFire && magAmmo > 0) {
+        if (state == State.Ready && Time.time >= lastFireTime + gunData.timeBetFire && magAmmo > 0)
+        {
             lastFireTime = Time.time;
             Shot();
         }
     }
 
     // 실제 발사 처리
-    private void Shot() {
+    private void Shot()
+    {
         RaycastHit hit;
         Vector3 hitPosition = Vector3.zero;
 
-        // [오타 수정 완료] Physics 대소문자 및 position 철자 수정, 느낌표(!) 제거 완료
-        if (Physics.Raycast(fireTransform.position, fireTransform.forward, out hit, fireDistance)) {
+        // 🎯 [핵심 수정 1] 총알이 플레이어 본인 몸에 걸리는 버그를 막기 위해 Player 레이어 제외 마스크 생성
+        int layerMask = ~LayerMask.GetMask("Player");
+
+        // 🎯 [핵심 수정 2] 레이캐스트에 레이어 마스크(layerMask)를 전달하여 플레이어를 통과해 좀비를 맞추도록 수정!
+        if (Physics.Raycast(fireTransform.position, fireTransform.forward, out hit, fireDistance, layerMask))
+        {
             hitPosition = hit.point;
-        } else {
+
+            // 🎯 [핵심 수정 3] 교재 설계 방식에 따라 IDamageable 인터페이스 컴포넌트를 가져와 대미지를 줌!
+            IDamageable target = hit.collider.GetComponent<IDamageable>();
+
+            // 상대방이 공격 가능한 대상(target)이라면 OnDamage 실행!
+            if (target != null)
+            {
+                target.OnDamage(gunData.damage, hit.point, hit.normal);
+            }
+        }
+        else
+        {
             hitPosition = fireTransform.position + fireTransform.forward * fireDistance;
         }
 
@@ -79,18 +101,19 @@ public class Gun : MonoBehaviour {
         StartCoroutine(ShotEffect(hitPosition));
 
         // 탄창이 다 떨어졌다면 상태를 Empty로 변경
-        if (magAmmo <= 0) {
+        if (magAmmo <= 0)
+        {
             state = State.Empty;
         }
     }
 
     // 발사 이펙트와 소리를 재생하고 탄알 궤적을 그림
-    private IEnumerator ShotEffect(Vector3 hitPosition) {
-        // [오타 수정 완료] 대문자 Play()로 정상 작동
+    private IEnumerator ShotEffect(Vector3 hitPosition)
+    {
         muzzleFlashEffect.Play();
         shellEjectEffect.Play();
         gunAudioPlayer.PlayOneShot(gunData.shotClip);
-        
+
         bulletLineRenderer.SetPosition(0, fireTransform.position);
         bulletLineRenderer.SetPosition(1, hitPosition);
         bulletLineRenderer.enabled = true;
@@ -101,35 +124,41 @@ public class Gun : MonoBehaviour {
     }
 
     // 재장전 시도
-    public bool Reload() {
-        if (state == State.Reloading || ammoRemain <= 0 || magAmmo >= gunData.magCapacity) {
+    public bool Reload()
+    {
+        if (state == State.Reloading || ammoRemain <= 0 || magAmmo >= gunData.magCapacity)
+        {
             return false;
         }
-        
+
         StartCoroutine(ReloadRoutine());
-        return true; 
+        return true;
     }
 
     // 실제 재장전 처리를 진행
-    private IEnumerator ReloadRoutine() {
+    private IEnumerator ReloadRoutine()
+    {
         state = State.Reloading;
         gunAudioPlayer.PlayOneShot(gunData.reloadClip);
-      
+
         // 재장전 애니메이션 연동
-        if (playerAnimator != null) {
+        if (playerAnimator != null)
+        {
             playerAnimator.SetTrigger("Reload");
         }
 
         yield return new WaitForSeconds(gunData.reloadTime);
 
         // 탄창을 실제로 채워주는 핵심 계산 로직 (무한 루프 방지)
-        int ammoToFill = gunData.magCapacity - magAmmo; 
+        int ammoToFill = gunData.magCapacity - magAmmo;
 
-        if (ammoRemain >= ammoToFill) {
+        if (ammoRemain >= ammoToFill)
+        {
             magAmmo = gunData.magCapacity;
             ammoRemain -= ammoToFill;
-        } 
-        else {
+        }
+        else
+        {
             magAmmo += ammoRemain;
             ammoRemain = 0;
         }
