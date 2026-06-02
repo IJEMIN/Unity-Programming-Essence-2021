@@ -26,7 +26,8 @@ public class UniRunPlayer : MonoBehaviour {
             playerRigidbody.linearVelocity = new Vector2(0, playerRigidbody.linearVelocity.y);
         }
 
-        if (Input.GetMouseButtonDown(0) && jumpCount < 2) {
+        // 🌟 [핵심 수정] 마우스 왼쪽 버튼을 눌렀고 + 마우스가 UI(시작 버튼, 상점 버튼 등) 위에 올라와 있지 않을 때만 점프 처리!
+        if (Input.GetMouseButtonDown(0) && jumpCount < 2 && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) {
             jumpCount++;
             playerRigidbody.linearVelocity = Vector2.zero; 
             playerRigidbody.AddForce(new Vector2(0, jumpForce));
