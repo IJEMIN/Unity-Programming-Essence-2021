@@ -1,0 +1,311 @@
+{
+  "context": {
+    "projectPath": "C:/Users/user/Desktop/source (1)/Unity-Programming-Essence-2021/14/Packages",
+    "unityVersion": "6000.4.5f1"
+  },
+  "inputs": [
+    "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Packages\\manifest.json",
+    "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Packages\\packages-lock.json",
+    "C:\\Program Files\\Unity\\Hub\\Editor\\6000.4.5f1\\Editor\\Data\\Resources\\PackageManager\\BuiltInPackages\\BuiltInPackagesCombined.sha1"
+  ],
+  "outputs": {
+    "com.unity.multiplayer.center@1.0.1": {
+      "name": "com.unity.multiplayer.center",
+      "displayName": "Multiplayer Center",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.multiplayer.center@f01f4ba8d00a",
+      "fingerprint": "f01f4ba8d00afa4e957bddf0fcd1612a564401ff",
+      "editorCompatibility": "6000.0.0a1",
+      "version": "1.0.1",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.accessibility@1.0.0": {
+      "name": "com.unity.modules.accessibility",
+      "displayName": "Accessibility",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.accessibility",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.adaptiveperformance@1.0.0": {
+      "name": "com.unity.modules.adaptiveperformance",
+      "displayName": "Adaptive Performance",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.adaptiveperformance",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.ai@1.0.0": {
+      "name": "com.unity.modules.ai",
+      "displayName": "AI",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.ai",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.androidjni@1.0.0": {
+      "name": "com.unity.modules.androidjni",
+      "displayName": "Android JNI",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.androidjni",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.animation@1.0.0": {
+      "name": "com.unity.modules.animation",
+      "displayName": "Animation",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.animation",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.assetbundle@1.0.0": {
+      "name": "com.unity.modules.assetbundle",
+      "displayName": "Asset Bundle",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.assetbundle",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.audio@1.0.0": {
+      "name": "com.unity.modules.audio",
+      "displayName": "Audio",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.audio",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.cloth@1.0.0": {
+      "name": "com.unity.modules.cloth",
+      "displayName": "Cloth",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.cloth",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.director@1.0.0": {
+      "name": "com.unity.modules.director",
+      "displayName": "Director",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.director",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.imageconversion@1.0.0": {
+      "name": "com.unity.modules.imageconversion",
+      "displayName": "Image Conversion",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.imageconversion",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.imgui@1.0.0": {
+      "name": "com.unity.modules.imgui",
+      "displayName": "IMGUI",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.imgui",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.jsonserialize@1.0.0": {
+      "name": "com.unity.modules.jsonserialize",
+      "displayName": "JSONSerialize",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.jsonserialize",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.particlesystem@1.0.0": {
+      "name": "com.unity.modules.particlesystem",
+      "displayName": "Particle System",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.particlesystem",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.physics@1.0.0": {
+      "name": "com.unity.modules.physics",
+      "displayName": "Physics",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.physics",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.physics2d@1.0.0": {
+      "name": "com.unity.modules.physics2d",
+      "displayName": "Physics 2D",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.physics2d",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.screencapture@1.0.0": {
+      "name": "com.unity.modules.screencapture",
+      "displayName": "Screen Capture",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.screencapture",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.terrain@1.0.0": {
+      "name": "com.unity.modules.terrain",
+      "displayName": "Terrain",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.terrain",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.terrainphysics@1.0.0": {
+      "name": "com.unity.modules.terrainphysics",
+      "displayName": "Terrain Physics",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.terrainphysics",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.tilemap@1.0.0": {
+      "name": "com.unity.modules.tilemap",
+      "displayName": "Tilemap",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.tilemap",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.ui@1.0.0": {
+      "name": "com.unity.modules.ui",
+      "displayName": "UI",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.ui",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.uielements@1.0.0": {
+      "name": "com.unity.modules.uielements",
+      "displayName": "UIElements",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.uielements",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.umbra@1.0.0": {
+      "name": "com.unity.modules.umbra",
+      "displayName": "Umbra",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.umbra",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.unityanalytics@1.0.0": {
+      "name": "com.unity.modules.unityanalytics",
+      "displayName": "Unity Analytics",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.unityanalytics",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.unitywebrequest@1.0.0": {
+      "name": "com.unity.modules.unitywebrequest",
+      "displayName": "Unity Web Request",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.unitywebrequest",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.unitywebrequestassetbundle@1.0.0": {
+      "name": "com.unity.modules.unitywebrequestassetbundle",
+      "displayName": "Unity Web Request Asset Bundle",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.unitywebrequestassetbundle",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.unitywebrequestaudio@1.0.0": {
+      "name": "com.unity.modules.unitywebrequestaudio",
+      "displayName": "Unity Web Request Audio",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.unitywebrequestaudio",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.unitywebrequesttexture@1.0.0": {
+      "name": "com.unity.modules.unitywebrequesttexture",
+      "displayName": "Unity Web Request Texture",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.unitywebrequesttexture",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.unitywebrequestwww@1.0.0": {
+      "name": "com.unity.modules.unitywebrequestwww",
+      "displayName": "Unity Web Request WWW",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.unitywebrequestwww",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.vectorgraphics@1.0.0": {
+      "name": "com.unity.modules.vectorgraphics",
+      "displayName": "Vector Graphics",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.vectorgraphics",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.vehicles@1.0.0": {
+      "name": "com.unity.modules.vehicles",
+      "displayName": "Vehicles",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.vehicles",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.video@1.0.0": {
+      "name": "com.unity.modules.video",
+      "displayName": "Video",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.video",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.vr@1.0.0": {
+      "name": "com.unity.modules.vr",
+      "displayName": "VR",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.vr",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.wind@1.0.0": {
+      "name": "com.unity.modules.wind",
+      "displayName": "Wind",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.wind",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.xr@1.0.0": {
+      "name": "com.unity.modules.xr",
+      "displayName": "XR",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.xr",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.subsystems@1.0.0": {
+      "name": "com.unity.modules.subsystems",
+      "displayName": "Subsystems",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.subsystems",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    },
+    "com.unity.modules.hierarchycore@1.0.0": {
+      "name": "com.unity.modules.hierarchycore",
+      "displayName": "Hierarchy Core",
+      "resolvedPath": "C:\\Users\\user\\Desktop\\source (1)\\Unity-Programming-Essence-2021\\14\\Library\\PackageCache\\com.unity.modules.hierarchycore",
+      "version": "1.0.0",
+      "source": "builtin",
+      "testable": false
+    }
+  }
+}

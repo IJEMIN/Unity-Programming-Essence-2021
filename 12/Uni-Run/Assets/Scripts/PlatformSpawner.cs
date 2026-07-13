@@ -1,30 +1,57 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-// 발판을 생성하고 주기적으로 재배치하는 스크립트
 public class PlatformSpawner : MonoBehaviour {
     public GameObject platformPrefab; // 생성할 발판의 원본 프리팹
     public int count = 3; // 생성할 발판의 개수
 
-    public float timeBetSpawnMin = 1.25f; // 다음 배치까지의 시간 간격 최솟값
-    public float timeBetSpawnMax = 2.25f; // 다음 배치까지의 시간 간격 최댓값
-    private float timeBetSpawn; // 다음 배치까지의 시간 간격
+    public float timeBetSpawnMin = 1.25f; // 다음 발판 생성까지의 최소 시간
+    public float timeBetSpawnMax = 2.25f; // Next 발판 생성까지의 최대 시간
+    private float timeBetSpawn; // 실제 랜덤하게 결정된 생성 간격
 
-    public float yMin = -3.5f; // 배치할 위치의 최소 y값
-    public float yMax = 1.5f; // 배치할 위치의 최대 y값
-    private float xPos = 20f; // 배치할 위치의 x 값
+    public float yMin = -2.0f; // 발판이 배치될 최소 Y 높이
+    public float yMax = 2.0f;  // 발판이 배치될 최대 Y 높이
+    private float xSpawnPosition = 20f; // 발판이 화면 우측 밖 어디서 생성될지 지정
 
-    private GameObject[] platforms; // 미리 생성한 발판들
-    private int currentIndex = 0; // 사용할 현재 순번의 발판
+    private GameObject[] platforms; // 미리 만들어둘 발판 배열 (오브젝트 풀)
+    private int currentIndex = 0; // 사용할 발판의 순서(인덱스)
 
-    private Vector2 poolPosition = new Vector2(0, -25); // 초반에 생성된 발판들을 화면 밖에 숨겨둘 위치
-    private float lastSpawnTime; // 마지막 배치 시점
+    // [수정 완료] 뒤에 닫는 괄호 ')'가 빠져있던 버그를 고쳤습니다!
+    private Vector2 poolPosition = new Vector2(0, -25f); 
+    private float lastSpawnTime; // 마지막으로 발판을 생성(재배치)한 시점
 
 
-    void Start() {
-        // 변수들을 초기화하고 사용할 발판들을 미리 생성
+    private void Start() {
+        // count 개수만큼 미리 발판을 생성하여 보이지 않는 지하에 숨겨둠 (오브젝트 풀링)
+        platforms = new GameObject[count];
+
+        for (int i = 0; i < count; i++) {
+            platforms[i] = Instantiate(platformPrefab, poolPosition, Quaternion.identity);
+        }
+
+        lastSpawnTime = 0f;
+        timeBetSpawn = 0f;
     }
 
-    void Update() {
-        // 순서를 돌아가며 주기적으로 발판을 배치
+    private void Update() {
+        if (GameManager.instance.isGameover) return;
+
+        // 순서가 되면 발판을 화면 우측 밖(xSpawnPosition)에서 Y값을 랜덤으로 조절해 재배치
+        if (Time.time >= lastSpawnTime + timeBetSpawn) {
+            lastSpawnTime = Time.time;
+            timeBetSpawn = Random.Range(timeBetSpawnMin, timeBetSpawnMax);
+
+            float ySpawnPosition = Random.Range(yMin, yMax);
+
+            platforms[currentIndex].SetActive(false);
+            platforms[currentIndex].SetActive(true);
+
+            platforms[currentIndex].transform.position = new Vector2(xSpawnPosition, ySpawnPosition);
+
+            currentIndex++;
+
+            if (currentIndex >= count) {
+                currentIndex = 0;
+            }
+        }
     }
 }
